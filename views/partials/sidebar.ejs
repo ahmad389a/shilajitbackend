@@ -1,0 +1,282 @@
+<!-- ========== Left Sidebar Start ========== -->
+<div class="vertical-menu">
+
+  <!-- LOGO -->
+  <div class="navbar-brand-box">
+    <a href="/index" class="logo logo-dark">
+      <span class="logo-sm">
+        <img src="/assets/images/logo-sm.svg" alt="" height="22">
+      </span>
+      <span class="logo-lg">
+        <img src="/assets/images/logo-sm.svg" alt="" height="22"> <span class="logo-txt">Symox</span>
+      </span>
+    </a>
+
+    <a href="/index" class="logo logo-light">
+      <span class="logo-lg">
+        <img src="/assets/images/logo-sm.svg" alt="" height="22"> <span class="logo-txt">Symox</span>
+      </span>
+      <span class="logo-sm">
+        <img src="/assets/images/logo-sm.svg" alt="" height="22">
+      </span>
+    </a>
+  </div>
+
+  <button type="button" class="btn btn-sm px-3 font-size-16 header-item vertical-menu-btn">
+    <i class="fa fa-fw fa-bars"></i>
+  </button>
+
+  <div data-simplebar class="sidebar-menu-scroll">
+
+    <!--- Sidemenu -->
+    <div id="sidebar-menu">
+      <!-- Left Menu Start -->
+      <ul class="metismenu list-unstyled" id="side-menu">
+        <li class="menu-title" data-key="t-menu">Menu</li>
+
+        <li>
+          <a href="/index">
+            <i class="bx bx-tachometer icon nav-icon"></i>
+            <span class="menu-item" data-key="t-dashboards"><%=translation.t_dashboards %></span>
+            <span class="badge rounded-pill bg-success">5+</span>
+          </a>
+        </li>
+
+        <li class="menu-title" data-key="t-applications"><%=translation.t_applications %></li>
+
+        <li>
+          <a href="/apps-calendar">
+            <i class="bx bx-calendar icon nav-icon"></i>
+            <span class="menu-item" data-key="t-calendar"><%=translation.t_calendar %></span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/apps-chat">
+            <i class="bx bx-chat icon nav-icon"></i>
+            <span class="menu-item" data-key="t-chat"><%=translation.t_chat %></span>
+            <span class="badge rounded-pill bg-danger" data-key="t-hot"><%=translation.t_hot %></span>
+          </a>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bx-envelope icon nav-icon"></i>
+            <span class="menu-item" data-key="t-email"><%=translation.t_email %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/email-inbox" data-key="t-inbox"><%=translation.t_inbox %></a></li>
+            <li><a href="/email-read" data-key="t-read-email"><%=translation.t_read_email %></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bx-store icon nav-icon"></i>
+            <span class="menu-item" data-key="t-ecommerce"><%=translation.t_ecommerce %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/ecommerce-products" data-key="t-products"><%=translation.t_products %></a></li>
+            <li><a href="/ecommerce-product-detail" data-key="t-product-detail"><%=translation.t_product_detail %></a></li>
+            <li><a href="/ecommerce-orders" data-key="t-orders"><%=translation.t_orders %></a></li>
+            <li><a href="/ecommerce-customers" data-key="t-customers"><%=translation.t_customers %></a></li>
+            <li><a href="/ecommerce-cart" data-key="t-cart"><%=translation.t_cart %></a></li>
+            <li><a href="/ecommerce-checkout" data-key="t-checkout"><%=translation.t_checkout %></a></li>
+            <li><a href="/ecommerce-shops" data-key="t-shops"><%=translation.t_shops %></a></li>
+            <li><a href="/ecommerce-add-product" data-key="t-add-product"><%=translation.t_add_product %></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bx-receipt icon nav-icon"></i>
+            <span class="menu-item" data-key="t-invoices"><%=translation.t_invoices %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/invoices-list" data-key="t-invoice-list"><%=translation.t_invoice_list %></a></li>
+            <li><a href="/invoices-detail" data-key="t-invoice-detail"><%=translation.t_invoice_detail %></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bxs-user-detail icon nav-icon"></i>
+            <span class="menu-item" data-key="t-contacts"><%=translation.t_contacts %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/contacts-grid" data-key="t-user-grid"><%=translation.t_user_grid %></a></li>
+            <li><a href="/contacts-list" data-key="t-user-list"><%=translation.t_user_list %></a></li>
+            <li><a href="/contacts-profile" data-key="t-user-profile"><%=translation.t_user_profile %></a></li>
+          </ul>
+        </li>
+
+        <li class="menu-title" data-key="t-pages"><%=translation.t_pages %></li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bx-user-circle icon nav-icon"></i>
+            <span class="menu-item" data-key="t-authentication"><%=translation.t_authentication %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/auth-login" data-key="t-login"><%=translation.t_signin %></a></li>
+            <li><a href="/auth-register" data-key="t-register"><%=translation.t_signup %></a></li>
+            <li><a href="/auth-recoverpw" data-key="t-recover-password"><%=translation.t_forgot_password %></a></li>
+            <li><a href="/auth-lock-screen" data-key="t-lock-screen"><%=translation.t_lock_screen %></a></li>
+            <li><a href="/auth-logout" data-key="t-logout"><%=translation.t_signout %></a></li>
+            <li><a href="/auth-confirm-mail" data-key="t-confirm-mail"><%=translation.t_confirm_mail %></a></li>
+            <li><a href="/auth-email-verification" data-key="t-email-verification"><%=translation.t_email_verification %></a></li>
+            <li><a href="/auth-two-step-verification" data-key="t-two-step-verification"><%=translation.t_2step_verification %></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bx-file icon nav-icon"></i>
+            <span class="menu-item" data-key="t-utility"><%=translation.t_utility %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/pages-starter" data-key="t-starter-page"><%=translation.t_starter_page %></a></li>
+            <li><a href="/pages-maintenance" data-key="t-maintenance"><%=translation.t_maintenance %></a></li>
+            <li><a href="/pages-comingsoon" data-key="t-coming-soon"><%=translation.t_coming_soon %></a></li>
+            <li><a href="/pages-timeline" data-key="t-timeline"><%=translation.t_timeline %></a></li>
+            <li><a href="/pages-faqs" data-key="t-faqs"><%=translation.t_faqs %></a></li>
+            <li><a href="/pages-pricing" data-key="t-pricing"><%=translation.t_pricing %></a></li>
+            <li><a href="/pages-404" data-key="t-error-404"><%=translation.t_error_404_basic %></a></li>
+            <li><a href="/pages-500" data-key="t-error-500"><%=translation.t_error_500_basic %></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="/layouts-vertical">
+            <i class="bx bx-layout icon nav-icon"></i>
+            <span class="menu-item" data-key="t-vertical"><%=translation.t_vertical %></span>
+          </a>
+        </li>
+
+        <li class="menu-title" data-key="t-components"><%=translation.t_components %></li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bxl-bootstrap icon nav-icon"></i>
+            <span class="menu-item" data-key="t-bootstrap"><%=translation.t_bootstrap %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/ui-alerts" data-key="t-alerts"><%=translation.t_alerts %></a></li>
+            <li><a href="/ui-buttons" data-key="t-buttons"><%=translation.t_buttons %></a></li>
+            <li><a href="/ui-cards" data-key="t-cards"><%=translation.t_cards %></a></li>
+            <li><a href="/ui-carousel" data-key="t-carousel"><%=translation.t_carousel %></a></li>
+            <li><a href="/ui-dropdowns" data-key="t-dropdowns"><%=translation.t_dropdowns %></a></li>
+            <li><a href="/ui-grid" data-key="t-grid"><%=translation.t_grid %></a></li>
+            <li><a href="/ui-images" data-key="t-images"><%=translation.t_images %></a></li>
+            <li><a href="/ui-modals" data-key="t-modals"><%=translation.t_modals %></a></li>
+            <li><a href="/ui-offcanvas" data-key="t-offcanvas"><%=translation.t_offcanvas %></a></li>
+            <li><a href="/ui-placeholders" data-key="t-placeholders"><%=translation.t_placeholders %></a></li>
+            <li><a href="/ui-progressbars" data-key="t-progress-bars"><%=translation.t_progress_bars %></a></li>
+            <li><a href="/ui-tabs-accordions" data-key="t-tabs-accordions"><%=translation.t_tabs_accordions %></a></li>
+            <li><a href="/ui-typography" data-key="t-typography"><%=translation.t_typography %></a></li>
+            <li><a href="/ui-video" data-key="t-video"><%=translation.t_Video %></a></li>
+            <li><a href="/ui-general" data-key="t-general"><%=translation.t_general %></a></li>
+            <li><a href="/ui-colors" data-key="t-colors"><%=translation.t_colors %></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bx-disc icon nav-icon"></i>
+            <span class="menu-item" data-key="t-extended"><%=translation.t_extend_ui %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/extended-lightbox" data-key="t-lightbox"><%=translation.t_lightbox %></a></li>
+            <li><a href="/extended-rangeslider" data-key="t-range-slider"><%=translation.t_range_slider %></a></li>
+            <li><a href="/extended-sweet-alert" data-key="t-sweet-alert"><%=translation.t_sweetalert %></a></li>
+            <li><a href="/extended-rating" data-key="t-rating"><%=translation.t_rating %></a></li>
+            <li><a href="/extended-notifications" data-key="t-notifications"><%=translation.t_notifications %></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bxs-eraser icon nav-icon"></i>
+            <span class="menu-item" data-key="t-forms"><%=translation.t_forms %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/form-elements" data-key="t-basic-elements"><%=translation.t_basic_elements %></a></li>
+            <li><a href="/form-validation" data-key="t-validation"><%=translation.t_validation %></a></li>
+            <li><a href="/form-advanced" data-key="t-advanced-plugins"><%=translation.t_advanced_plugins %></a></li>
+            <li><a href="/form-editors" data-key="t-editors"><%=translation.t_editors %></a></li>
+            <li><a href="/form-uploads" data-key="t-file-upload"><%=translation.t_file_upload %></a></li>
+            <li><a href="/form-wizard" data-key="t-wizard"><%=translation.t_wizard %></a></li>
+            <li><a href="/form-mask" data-key="t-mask"><%=translation.t_mask %></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bx-list-ul icon nav-icon"></i>
+            <span class="menu-item" data-key="t-tables"><%=translation.t_tables %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/tables-basic" data-key="t-bootstrap-basic"><%=translation.t_bootstrap_basic %></a></li>
+            <li><a href="/tables-advanced" data-key="t-advanced-tables"><%=translation.t_advanced_tables %></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bxs-bar-chart-alt-2 icon nav-icon"></i>
+            <span class="menu-item" data-key="t-charts"><%=translation.t_charts %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/charts-apex" data-key="t-apex-charts"><%=translation.t_apex_charts %></a></li>
+            <li><a href="/charts-chartjs" data-key="t-chartjs-charts"><%=translation.t_chartjs%></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bx-aperture icon nav-icon"></i>
+            <span class="menu-item" data-key="t-icons"><%=translation.t_icons %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/icons-feather" data-key="t-feather"><%=translation.t_feather_icons %></a></li>
+            <li><a href="/icons-boxicons" data-key="t-boxicons"><%=translation.t_boxicons %></a></li>
+            <li><a href="/icons-materialdesign" data-key="t-material-design"><%=translation.t_material_design %></a></li>
+            <li><a href="/icons-dripicons" data-key="t-dripicons"><%=translation.t_dripicons %></a></li>
+            <li><a href="/icons-fontawesome" data-key="t-font-awesome"><%=translation.t_font_awesome %></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bx-map icon nav-icon"></i>
+            <span class="menu-item" data-key="t-maps"><%=translation.t_maps %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href="/maps-google" data-key="t-google"><%=translation.t_google %></a></li>
+            <li><a href="/maps-vector" data-key="t-vector"><%=translation.t_vector %></a></li>
+            <li><a href="/maps-leaflet" data-key="t-leaflet"><%=translation.t_leaflet %></a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow">
+            <i class="bx bx-share-alt icon nav-icon"></i>
+            <span class="menu-item" data-key="t-multi-level"><%=translation.t_multi_level %></span>
+          </a>
+          <ul class="sub-menu" aria-expanded="true">
+            <li><a href="javascript: void(0);" data-key="t-level-1.1"><%=translation.t_level_1_1 %></a></li>
+            <li><a href="javascript: void(0);" class="has-arrow" data-key="t-level-1.2"><%=translation.t_level_1_2 %></a>
+              <ul class="sub-menu" aria-expanded="true">
+                <li><a href="javascript: void(0);" data-key="t-level-2.1"><%=translation.t_level_2_1 %></a></li>
+                <li><a href="javascript: void(0);" data-key="t-level-2.2"><%=translation.t_level_2_2 %></a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+    <!-- Sidebar -->
+  </div>
+</div>
+<!-- Left Sidebar End -->
