@@ -26,6 +26,7 @@ app.use(upload());
 app.use(express.json());
 app.use(session({ resave: false, saveUninitialized: true, secret: 'nodedemo' }));
 app.use(cookieParser());
+
 // app.use(expressPartials({}));
 app.set('layout', 'layout/layout');
 app.use(expressLayouts);
