@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 const AuthController = require("../controller/AuthController");
+const testingController = require("../controller/testingController");
 const { Console } = require('console');
 
 module.exports = function (route) {
@@ -275,6 +276,10 @@ module.exports = function (route) {
 
     // validate register form
     route.post("/signup", AuthController.signup)
+    // Testing
+    route.get('/add-product', testingController.getRegisterPage);
+    route.get('/testing-product', testingController.testing_products);
+    route.post("/add_proudcts", testingController.add_proudct)
 
 
     route.get('/forgotpassword', (req, res, next) => {
