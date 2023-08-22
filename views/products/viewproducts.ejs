@@ -1,0 +1,47 @@
+<%- contentFor('HeaderCss') %>
+<%- contentFor('body') %>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+              <tr>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">ID</th>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">Name</th>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">Price</th>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">QUANTITY</th>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">DISCOUNT PRICE</th>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">DESCRIPTION</th>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">SIZE</th>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">META TITLE</th>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">META KEYWORDS</th>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">META DESCRIPTION</th>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">SLUG</th>
+                <th style="background-color: #f2f2f2; text-align: left; padding: 10px;">by_default_delete</th>
+              </tr>
+              <% prod.forEach((product) => { %>
+                <tr>
+                  <td style="padding: 10px;"><%= product.p_id %></td>
+                  <td style="padding: 10px;"><%= product.p_name %></td>
+                  <td style="padding: 10px;"><%= product.p_price %></td>
+                  <td style="padding: 10px;"><%= product.Quantity %></td>
+                  <td style="padding: 10px;"><%= product.discount_price %></td>
+                  <td style="padding: 10px;"><%= product.p_description %></td>
+                  <td style="padding: 10px;"><%= product.p_size %></td>
+                  <td style="padding: 10px;"><%= product.meta_title %></td>
+                  <td style="padding: 10px;"><%= product.meta_keywords %></td>
+                  <td style="padding: 10px;"><%= product.meta_description %></td>
+                  <td style="padding: 10px;"><%= product.slug %></td>
+                  <td style="padding: 10px;"><%= product.by_defualt_is_deleted %></td>
+                  <td style="padding: 10px;">
+                    <a href="/edit-product/<%= product.p_id %>">Edit</a> |
+                    <a href="/delete-product/<%= product.p_id %>">Delete</a>
+                  </td>
+                </tr>
+              <% }); %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+<%- contentFor('FooterJs') %>

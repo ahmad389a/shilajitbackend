@@ -5,6 +5,7 @@ const fs = require('fs');
 
 const AuthController = require("../controller/AuthController");
 const testingController = require("../controller/testingController");
+const ProductController = require("../controller/ProductController");
 const { Console } = require('console');
 
 module.exports = function (route) {
@@ -76,9 +77,7 @@ module.exports = function (route) {
     route.get('/contacts-profile', (req, res, next) => {
         res.render('contacts-profile');
     })
-    route.get('/ecommerce-add-product', (req, res, next) => {
-        res.render('ecommerce-add-product');
-    })
+
     route.get('/ecommerce-cart', (req, res, next) => {
         res.render('ecommerce-cart');
     })
@@ -293,6 +292,16 @@ module.exports = function (route) {
     route.get("/resetpassword", AuthController.resetpswdview);
     // Change password
     route.post("/changepassword", AuthController.changepassword);
+
+    // shilajit products
+    route.get("/ecommerce-add-product",ProductController.GetProductAddPage);
+    route.get("/viewofproducts", ProductController.fetch_all_products);
+    route.post("/add-shilajit-product", ProductController.AddShilajitProduct);
+    // Route to handle product updates and delete
+    route.get('/edit-product/:id',ProductController.renderEditProductPage);
+    route.post('/update-product/:id', ProductController.updateProduct);
+    route.get('/delete-product/:id', ProductController.deleteProduct);
+
 
     //500
     route.get('/error', (req, res, next) => {
