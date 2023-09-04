@@ -1,0 +1,202 @@
+<%- contentFor('HeaderCss') %>
+
+<%-include("partials/title-meta", {"title": "Products"})%>
+<!-- datepicker css -->
+<link rel="stylesheet" href="/assets/libs/flatpickr/flatpickr.min.css">
+<!-- gridjs css -->
+<link rel="stylesheet" href="/assets/libs/gridjs/theme/mermaid.min.css">
+<%- contentFor('body') %>
+<%-include("partials/page-title", {"pagetitle":"Ecommerce", "title": "Shop Products"})%>
+<div class="row">
+  <div class="col-lg-12">
+    <% if (messages.error && messages.error.length > 0) { %>
+      <div class="alert alert-danger">
+        <% messages.error.forEach(function(error) { %>
+          <p><%= error %></p>
+        <% }); %>
+      </div>
+    <% } %>
+    <% if (messages.success && messages.success.length > 0) { %>
+      <div class="alert alert-success">
+        <% messages.success.forEach(function(success) { %>
+          <p><%= success %></p>
+        <% }); %>
+      </div>
+    <% } %>
+    <div class="card">
+      <div class="card-header">
+        <div class="float-end">
+          <a href="/add_product">
+            <button type="button" class="btn btn-dark waves-effect waves-light mb-2 me-2">
+              <i class="mdi mdi-plus me-1"></i> Add New Product
+            </button>
+          </a>
+        </div>        
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>D-Price</th>
+                <th>Size</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (products.length === 0) { %>
+                <tr>
+                  <td colspan="10">No products found.</td>
+                </tr>
+              <% } else { %>
+                <% products.forEach((product, index) => { %>
+                  <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= product.p_name %></td>
+                    <td><%= product.p_qty %></td>
+                    <td><%= product.p_price %></td>
+                    <td><%= product.p_d_price %></td>
+                    <td><%= product.p_size %></td>
+                    <% if (product.p_image) { %>
+                      <% const imageNames = product.p_image.split(','); %>
+                      <% if (imageNames.length > 0) { %>
+                        <td><img src="/uploads/images/products/<%= imageNames[0] %>" alt="Product Image" width="100"></td>
+                      <% } %>
+                    <% } %>                    
+                    <td><%= product.p_desc %></td>
+                    <td>
+                      <div class="dropdown">
+                        <button class="btn btn-dark btn-sm dropdown-toggle-vertical" type="button" id="dropdownMenuButton<%= index %>" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton<%= index %>">
+                          <a href="/edit-product/<%= product._id %>" class="dropdown-item btn-primary">
+                            <i class="fas fa-edit me-1"></i> Edit
+                          </a>
+                          <button class="dropdown-item btn-danger" onclick="confirmDelete('<%= product._id %>')">
+                            <i class="fas fa-trash-alt me-1"></i> Delete
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  successfully modal  -->
+<div id="success-btn" class="modal fade" tabindex="-1" aria-labelledby="success-btnLabel" aria-hidden="true" data-bs-scroll="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="text-center">
+          <i class="bx bx-check-circle display-1 text-success"></i>
+          <h3 class="mt-3">New Customer Created Successfully</h3>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--  Extra Large modal example -->
+<div class="modal fade new-customer" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myExtraLargeModalLabel">New Customer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label" for="NewCustomers-Username">Username</label>
+              <input type="text" class="form-control" placeholder="Enter Username" id="NewCustomers-Username">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label" for="NewCustomers-Email">Email</label>
+              <input type="text" class="form-control" placeholder="Enter Email" id="NewCustomers-Email">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label" for="NewCustomers-Phone">Phone</label>
+              <input type="text" class="form-control" placeholder="Enter Phone" id="NewCustomers-Phone">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label" for="NewCustomers-Wallet">Wallet</label>
+              <input type="text" class="form-control" placeholder="0" id="NewCustomers-Wallet">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Date</label>
+              <input type="text" class="form-control" placeholder="Select Date" id="customers-date">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label" for="NewCustomers-Address">Address</label>
+              <input type="text" class="form-control" placeholder="Enter Address" id="NewCustomers-Address">
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-12 text-end">
+            <button type="button" class="btn btn-danger me-1" data-bs-dismiss="modal"><i class="bx bx-x me-1"></i> Cancel</button>
+            <button type="submit" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#success-btn" id="btn-save-event"><i class="bx bx-check me-1"></i> Confirm</button>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<%- contentFor('FooterJs') %>
+<!-- datepicker js -->
+<script src="/assets/libs/flatpickr/flatpickr.min.js"></script>
+<!-- gridjs js -->
+<script src="/assets/libs/gridjs/gridjs.umd.js"></script>
+<script src="/assets/js/pages/ecommerce-customers.init.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function confirmDelete(productId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/delete-product';
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'productId';
+        input.value = productId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+      }
+    });
+  }
+</script>

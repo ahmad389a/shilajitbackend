@@ -1,9 +1,8 @@
 const express = require('express');
 const route = express.Router();
-const path = require('path');
-const fs = require('fs');
 
 const AuthController = require("../controller/AuthController");
+const ShopsController = require("../controller/Shops/ShopsController");
 const testingController = require("../controller/testingController");
 const ProductController = require("../controller/ProductController");
 const { Console } = require('console');
@@ -22,6 +21,13 @@ module.exports = function (route) {
         }
         next();
     })
+    // Shops
+    route.get("/add_product", ShopsController.add_product)
+    route.get("/products", ShopsController.all_products)
+    route.post("/save_product",uploads.array('files', 5),  ShopsController.save_product)
+    route.get("/edit-product/:productId", ShopsController.edit_product)
+    route.post("/update-product/:productId", uploads.array('files', 5),ShopsController.update_product)
+    route.post("/delete-product/", ShopsController.delete_product)
 
 
     route.get('/auth-confirm-mail', (req, res, next) => {
@@ -77,7 +83,9 @@ module.exports = function (route) {
     route.get('/contacts-profile', (req, res, next) => {
         res.render('contacts-profile');
     })
-
+    route.get('/ecommerce-add-product', (req, res, next) => {
+        res.render('ecommerce-add-product');
+    })
     route.get('/ecommerce-cart', (req, res, next) => {
         res.render('ecommerce-cart');
     })

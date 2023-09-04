@@ -5,7 +5,6 @@ Website: https://Themesbrand.com/
 Contact: Themesbrand@gmail.com
 File: Ecommerce customers Js File
 */
-
 // Basic Table
 new gridjs.Grid({
   columns:
