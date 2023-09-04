@@ -121,6 +121,7 @@ router.post('/webhook', async (req, res) => {
         billingAddressMetadata
       );
       await sendAdminNotificationEmail(orderNumber, cartItemsMetadata, billingAddressMetadata);
+      console.log("order creted----------------------------")
     }
 
     res.json({ received: true });
