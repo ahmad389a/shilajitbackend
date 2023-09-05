@@ -1,5 +1,6 @@
 const shop = require("../../models/ShopsModel");
 const randomstring = require('randomstring');
+const Order = require("../../models/Order");
 
 exports.add_product = (req, res) => {
     res.render("ecommerce-add-product", {
@@ -114,7 +115,17 @@ exports.update_product = async (req, res) => {
       res.redirect(`/edit-product/${productId}`);
   }
 };
-
+exports.view_product = async (req,res) =>{
+  const prod_id = req.params.productId;
+  try{
+    const product = await shop.findById(prod_id);
+    const messages = req.flash();
+    res.render('product-details', { product ,messages});
+  }catch (error){
+    req.flash("error", `Error Editing the product: ${error.message}`);
+    res.redirect("/products");
+  }
+};
 exports.delete_product = async (req, res) => {
   const productId = req.body.productId;
   try {
@@ -124,5 +135,17 @@ exports.delete_product = async (req, res) => {
   } catch (error) {
     req.flash("error", `Error Deleting the product: ${error.message}`);
       res.redirect("/products");
+  }
+};
+exports.all_orders = async (req, res) => {
+  try {
+    const orders = await Order.find(); 
+    const messages = req.flash();
+    console.log("-----------------------",orders)
+    res.render('ecommerce-orders', {orders,messages});
+  } catch (error) {
+    console.log(error)
+    req.flash("error", `Error Fetching  orders: ${error.message}`);
+    res.redirect("/products");
   }
 };

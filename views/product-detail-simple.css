@@ -1,0 +1,7 @@
+#featured{
+    max-width: 500px;
+    max-height: 400px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid black;
+}

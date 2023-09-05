@@ -130,6 +130,45 @@ router.post('/webhook', async (req, res) => {
     res.status(500).json({ error: 'Webhook error' });
   }
 });
+router.get("/orders", async (req, res) => {
+  try {
+    const orders = await Order.find();
+    res.json(orders);
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+router.get('/orders', async (req, res) => {
+  try {
+    // Get the date parameter from the query string
+    const date = req.query.date;
 
+    // Ensure that the date parameter is provided
+    if (!date) {
+      return res.status(400).json({ message: 'Date parameter is required' });
+    }
 
+    // Parse the date string into a JavaScript Date object
+    const selectedDate = new Date(date);
+
+    // Set the start and end of the selected date (from midnight to 11:59:59 PM)
+    selectedDate.setHours(0, 0, 0, 0);
+    const endDate = new Date(selectedDate);
+    endDate.setHours(23, 59, 59, 999);
+
+    // Query the database for orders within the selected date range
+    const orders = await Order.find({
+      createdAt: {
+        $gte: selectedDate,
+        $lte: endDate,
+      },
+    });
+
+    res.json(orders);
+  } catch (error) {
+    console.error('Error fetching orders by date:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 module.exports = router;

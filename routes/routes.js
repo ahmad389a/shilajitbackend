@@ -25,8 +25,10 @@ module.exports = function (route) {
     route.get("/products", ShopsController.all_products)
     route.post("/save_product",uploads.array('files', 5),  ShopsController.save_product)
     route.get("/edit-product/:productId", ShopsController.edit_product)
+    route.get("/view-product/:productId", ShopsController.view_product)
     route.post("/update-product/:productId", uploads.array('files', 5),ShopsController.update_product)
     route.post("/delete-product/", ShopsController.delete_product)
+    route.get("/orders", ShopsController.all_orders)
 
 
     route.get('/auth-confirm-mail', (req, res, next) => {

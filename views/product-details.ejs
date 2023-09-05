@@ -1,0 +1,129 @@
+<%- contentFor('HeaderCss') %>
+
+<%-include("partials/title-meta", {"title": "Product Details"})%>
+<!-- swiper css -->
+<base href="/" >
+<link rel="stylesheet" href="/assets/libs/swiper/swiper-bundle.min.css">
+
+<style>
+  #featured{
+    max-width: 500px;
+    max-height: 350px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid black;
+}
+.thumbnail{
+  object-fit: cover;
+  width: 100px;
+  height: 80px;
+  cursor: pointer;
+  opacity: 0.5;
+  margin: 5px;
+  border: 2px solid black;
+}
+.thumbnail:hover{
+  opacity: 1; 
+}
+.active{
+  opacity: 1; 
+}
+
+</style>
+<%- contentFor('body') %>
+<%-include("partials/page-title", {"pagetitle": "Ecommerce", "title": "Product Details"})%>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+      <div class="row">
+
+    <!-- ===========Image================ -->
+
+      <div class="col-md-6">
+        <div class="product-images">
+          <!-- Featured image -->
+          <img id="featured" src="/uploads/images/products/<%= product.p_image.split(',')[0].trim() %>" alt="feature image" width="500" height="400"/>
+      
+          <div class="pt-2">
+            <!-- Thumbnails -->
+            <% const imageUrls = product.p_image.split(','); %>
+            <% imageUrls.forEach((imageUrl, index) => { %>
+              <img class="thumbnail <%= index === 0 ? 'active' : '' %>" src="/uploads/images/products/<%= imageUrl.trim() %>" alt=""/>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+       <!-- ===========details================ -->
+        <div class="col-md-6" style="padding-top: 2%;">
+         <div >
+            <table class="table" border="n solid black" style="border-collapse: collapse;"> 
+                    <tbody>
+                      <tr>
+                        <td colspan="1" style="color: #04b304;" >Product Name:</td>
+                        <td><%= product.p_name %></td>
+                      </tr>
+                      <tr>
+                        <td colspan="1" style="color: #04b304;" >Product Sku:</td>
+                        <td><%= product.sku %></td>
+                      </tr>
+                      <tr>
+                        <td colspan="1" style="color:   #04b304;" >Price:</td>
+                        <td><%= product.p_price %></td>
+                      </tr>
+                      <tr>
+                        <td colspan="1" style="color:  #04b304;" >Discount Price:</td>
+                        <td><%= product.p_d_price %></td>
+                      </tr>
+                      <tr>
+                        <td colspan="1" style="color:  #04b304;" >Quantity:</td>
+                        <td><%= product.p_qty %></td>
+                      </tr>
+                      <tr>
+                        <td colspan="1" style="color:  #04b304;" >Size:</td>
+                        <td><%= product.p_size %></td>
+                      </tr>
+                      <tr>
+                        <td colspan="1" style="color:  #04b304;" >Description:</td>
+                        <td><%= product.p_desc %></td>
+                      </tr>   
+                    </tbody>
+                  </table>
+              
+         </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end row -->
+<!-- sample modal content -->
+
+<%- contentFor('FooterJs') %>
+<!-- swiper js -->
+<script src="/assets/libs/swiper/swiper-bundle.min.js"></script>
+
+<script src="/assets/js/pages/ecommerce-product-detail.init.js"></script>
+
+<script type="text/javascript">
+  let thumbnails = document.getElementsByClassName('thumbnail')
+  let activeImages = document.getElementsByClassName('active')
+
+        for (var i=0; i < thumbnails.length; i++){
+  
+              thumbnails[i].addEventListener('mouseover', function(){
+
+           console.log(activeImages)
+
+       if(activeImages.length > 0){
+           activeImages[0].classList.remove('active')
+            }
+            
+          this.classList.add('active')
+           document.getElementById('featured').src = this.src
+
+  })
+}
+
+</script>

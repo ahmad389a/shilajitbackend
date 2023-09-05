@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const orderSchema = new mongoose.Schema({
   orderNumber: String,
   cartItems: [
@@ -14,6 +15,8 @@ const orderSchema = new mongoose.Schema({
     lastName: String,
   },
   total: Number,
+}, {
+  timestamps: true,
 });
 
 const Order = mongoose.model('orders', orderSchema);

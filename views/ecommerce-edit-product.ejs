@@ -11,13 +11,11 @@
     display: flex;
     justify-content: center;
 }
-
 .centered-image {
     width: 200px;
     height: 120px; 
     margin: 0 5px;
 }
-
 </style>
 <%- contentFor('body') %>
 <%-include("partials/page-title", {"pagetitle": "Ecommerce", "title": "Edit Product"})%>
@@ -30,8 +28,7 @@
             <p><%= error %></p>
           <% }); %>
         </div>
-      <% } %>
-    
+      <% } %>   
       <% if (messages.success && messages.success.length > 0) { %>
         <div class="alert alert-success">
           <% messages.success.forEach(function(success) { %>
@@ -43,7 +40,6 @@
         <div class="card">
           <a href="#addproduct-productinfo-collapse" class="text-dark" data-bs-toggle="collapse" aria-expanded="true" aria-controls="addproduct-productinfo-collapse">
             <div class="p-4">
-
               <div class="d-flex align-items-center">
                 <div class="flex-shrink-0 me-3">
                   <div class="avatar-sm">
@@ -59,12 +55,9 @@
                 <div class="flex-shrink-0">
                   <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
                 </div>
-
               </div>
-
             </div>
           </a>
-
           <div id="addproduct-productinfo-collapse" class="collapse show" data-bs-parent="#addproduct-accordion">
             <div class="p-4 border-top">
                 <div class="mb-3">
