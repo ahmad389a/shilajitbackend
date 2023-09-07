@@ -1,11 +1,11 @@
 
 const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
+    host: 'smtp.gmail.com',
     port: 587,
     auth: {
-        user: 'vincent.weissnat@ethereal.email',
-        pass: '6NeGjpfXFwG6j3hPm4'
+        user: 'naturenskatter@gmail.com',
+        pass: 'uboftznqspyvvqip'
     }
 });
 const sendCustomerConfirmationEmail = async (
@@ -15,7 +15,7 @@ const sendCustomerConfirmationEmail = async (
   billingAddressMetadata
 ) => {
   const customerEmailOptions = {
-    from: "vincent.weissnat@ethereal.email",
+    from: "naturenskatter@gmail.com",
     to: customerEmail,
     subject: "Order Confirmation",
     html: `

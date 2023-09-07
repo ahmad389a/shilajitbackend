@@ -266,7 +266,7 @@ module.exports = function (route) {
 
     // Auth
     route.get('/login', (req, res, next) => {
-        res.render('Auth/login', { title: 'Login', layout: 'layout/layout-without-nav', 'message': req.flash('message'), error: req.flash('error') })
+        res.render('auth/login', { title: 'Login', layout: 'layout/layout-without-nav', 'message': req.flash('message'), error: req.flash('error') })
     })
 
     // validate login form
