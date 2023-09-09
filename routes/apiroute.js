@@ -115,7 +115,7 @@ router.post('/webhook', async (req, res) => {
       });
       await order.save();
       await sendCustomerConfirmationEmail(
-        'bopafoj312@docwl.com', 
+        'wehax76891@searpen.com', 
         orderNumber,
         cartItemsMetadata,
         billingAddressMetadata
