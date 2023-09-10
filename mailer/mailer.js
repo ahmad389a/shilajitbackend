@@ -48,8 +48,10 @@ const sendCustomerConfirmationEmail = async (
         </tbody>
       </table>
       <h3>Billing Address</h3>
-      <p>Name: ${billingAddressMetadata.name}</p>
-      <p>Address: ${billingAddressMetadata.address}</p>
+      <p>Name: ${billingAddressMetadata.firstName} ${billingAddressMetadata.lastName}</p>
+      <p>Address: ${billingAddressMetadata.streetAddress} ${billingAddressMetadata.townCity} ${billingAddressMetadata.postcodeZIP} ${billingAddressMetadata.stateCounty}</p>
+      <p>Contact: ${billingAddressMetadata.phone}</p>
+      <p>Email: ${billingAddressMetadata.emailAddress}</p>
       <p>Visit our website: <a href="https://naturensskatter.com/">Naturensskatter</a></p>
       <!-- Include other billing details as needed -->
     `,
@@ -100,8 +102,10 @@ const sendAdminNotificationEmail = async (
           </tbody>
         </table>
         <h3>Billing Address</h3>
-        <p>Name: ${billingAddressMetadata.name}</p>
-        <p>Address: ${billingAddressMetadata.address}</p>
+        <p>Name: ${billingAddressMetadata.firstName} ${billingAddressMetadata.lastName}</p>
+        <p>Address: ${billingAddressMetadata.streetAddress} ${billingAddressMetadata.townCity} ${billingAddressMetadata.postcodeZIP} ${billingAddressMetadata.stateCounty}</p>
+        <p>Contact: ${billingAddressMetadata.phone}</p>
+        <p>Email: ${billingAddressMetadata.emailAddress}</p>
         <!-- Include other billing details as needed -->
       `,
   };

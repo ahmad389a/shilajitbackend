@@ -61,7 +61,7 @@ router.post("/create-checkout-session", async (req, res) => {
     const line_items = cartItems.map((item) => {
       return {
         price_data: {
-          currency: "nok",
+          currency: "usd",
           product_data: {
             name: item.name,
             description: item.shortDescription,
@@ -74,10 +74,11 @@ router.post("/create-checkout-session", async (req, res) => {
         quantity: item.quantity,
       };
     });
+
     const session = await stripe.checkout.sessions.create({
       line_items,
       mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/order-status`,
+      success_url: `${process.env.CLIENT_URL}/checkout-success`,
       cancel_url: `${process.env.CLIENT_URL}/cart`,
       metadata: {
         cartItems: cartItemsJson,
@@ -96,23 +97,18 @@ router.post("/create-checkout-session", async (req, res) => {
       });
   }
 });
-router.get("/order-status", (req, res) => {
-  const orderNumber = req.session.orderNumber;
-  res.json({ orderNumber });
-});
-
 router.post('/webhook', async (req, res) => {
   const event = req.body;
   try {
 
     if (event.type === 'checkout.session.completed') {
-      const paymentIntent = event.data.obj.ect;
+      const paymentIntent = event.data.object;
       const cartItemsMetadata = JSON.parse(paymentIntent.metadata.cartItems);
       const billingAddressMetadata = JSON.parse(paymentIntent.metadata.billingAddress);
       const orderNumber = paymentIntent.metadata.order_Number;
-      const customerEmail = billingAddressMetadata.emailAddress;
       const total = paymentIntent.amount_total;
-      const stripe_id = paymentIntent.id;
+      const email_address =billingAddressMetadata.emailAddress;
+      const stripe_id =paymentIntent.id;
       const order = new Order({
         orderNumber,
         cartItems: cartItemsMetadata,
@@ -122,7 +118,7 @@ router.post('/webhook', async (req, res) => {
       });
       await order.save();
       await sendCustomerConfirmationEmail(
-        customerEmail, 
+        email_address, 
         orderNumber,
         cartItemsMetadata,
         billingAddressMetadata
