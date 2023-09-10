@@ -22,7 +22,7 @@ const orderSchema = new mongoose.Schema({
 
   },
   total: Number,
-  stripeid:String,
+  stripe_id:String,
 }, {
   timestamps: true,
 });

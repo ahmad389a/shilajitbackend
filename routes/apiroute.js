@@ -61,7 +61,7 @@ router.post("/create-checkout-session", async (req, res) => {
     const line_items = cartItems.map((item) => {
       return {
         price_data: {
-          currency: "usd",
+          currency: "nok",
           product_data: {
             name: item.name,
             description: item.shortDescription,
@@ -106,17 +106,19 @@ router.post('/webhook', async (req, res) => {
   try {
 
     if (event.type === 'checkout.session.completed') {
-      const paymentIntent = event.data.object;
+      const paymentIntent = event.data.obj.ect;
       const cartItemsMetadata = JSON.parse(paymentIntent.metadata.cartItems);
       const billingAddressMetadata = JSON.parse(paymentIntent.metadata.billingAddress);
       const orderNumber = paymentIntent.metadata.order_Number;
       const customerEmail = billingAddressMetadata.emailAddress;
       const total = paymentIntent.amount_total;
+      const stripe_id = paymentIntent.id;
       const order = new Order({
         orderNumber,
         cartItems: cartItemsMetadata,
         billingAddress: billingAddressMetadata,
         total,
+        stripe_id,
       });
       await order.save();
       await sendCustomerConfirmationEmail(
