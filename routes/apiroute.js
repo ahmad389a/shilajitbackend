@@ -106,6 +106,7 @@ router.post('/webhook', async (req, res) => {
       const cartItemsMetadata = JSON.parse(paymentIntent.metadata.cartItems);
       const billingAddressMetadata = JSON.parse(paymentIntent.metadata.billingAddress);
       const orderNumber = paymentIntent.metadata.order_Number;
+      const customerEmail = billingAddressMetadata.emailAddress;
       const total = paymentIntent.amount_total;
       const order = new Order({
         orderNumber,
@@ -115,7 +116,7 @@ router.post('/webhook', async (req, res) => {
       });
       await order.save();
       await sendCustomerConfirmationEmail(
-        'wehax76891@searpen.com', 
+        customerEmail, 
         orderNumber,
         cartItemsMetadata,
         billingAddressMetadata

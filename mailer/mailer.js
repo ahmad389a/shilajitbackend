@@ -68,8 +68,8 @@ const sendAdminNotificationEmail = async (
   billingAddressMetadata
 ) => {
   const adminEmailOptions = {
-    from: "vincent.weissnat@ethereal.email",
-    to: "wehax76891@searpen.com", 
+    from: "naturenskatter@gmail.com",
+    to: "naturenskatter@gmail.com", 
     subject: "New Order Notification",
     html: `
         <h1>New Order Notification</h1>

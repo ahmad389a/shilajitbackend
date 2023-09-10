@@ -13,8 +13,16 @@ const orderSchema = new mongoose.Schema({
   billingAddress: {
     firstName: String,
     lastName: String,
+    streetAddress:String,
+    townCity:String,
+    stateCounty:String,
+    postcodeZIP:String,
+    phone:String,
+    emailAddress:String,
+
   },
   total: Number,
+  stripeid:String,
 }, {
   timestamps: true,
 });
