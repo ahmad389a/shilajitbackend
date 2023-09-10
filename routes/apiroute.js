@@ -74,7 +74,6 @@ router.post("/create-checkout-session", async (req, res) => {
         quantity: item.quantity,
       };
     });
-    req.session.orderNumber = orderNumber;
     const session = await stripe.checkout.sessions.create({
       line_items,
       mode: "payment",
