@@ -74,7 +74,7 @@ router.post("/create-checkout-session", async (req, res) => {
         quantity: item.quantity,
       };
     });
-
+    req.session.orderNumber = orderNumber;
     const session = await stripe.checkout.sessions.create({
       line_items,
       mode: "payment",
@@ -97,6 +97,11 @@ router.post("/create-checkout-session", async (req, res) => {
       });
   }
 });
+router.get("/order-status", (req, res) => {
+  const orderNumber = req.session.orderNumber;
+  res.json({ orderNumber });
+});
+
 router.post('/webhook', async (req, res) => {
   const event = req.body;
   try {
