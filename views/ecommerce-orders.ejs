@@ -6,6 +6,17 @@
 
 <!-- datepicker css -->
 <link rel="stylesheet" href="/assets/libs/flatpickr/flatpickr.min.css">
+<style>
+.table-container {
+  max-height: 400px; /* Adjust the maximum height as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ccc; /* Add a border for styling */
+}
+.table {
+  width: 100%; /* Make the table fill its container width */
+  border-collapse: collapse; /* Collapse table borders */
+}
+</style>
 <%- contentFor('body') %>
 <%-include("partials/page-title", {"pagetitle": "Ecommerce", "title": "Orders"})%>
 <div class="row">
@@ -13,9 +24,9 @@
     <div class="card">
       <div class="card-header">
       </div>
-      <div class="card-body">
+      <div class="card-body table-container">
         <table class="table mb-0" style="border-bottom: 1px solid black;">
-          <thead class="table-dark">
+          <thead class="table-dark" style="position:fixed-top;">
             <tr>
               <th class="text-center">#</th>
               <th class="text-center">Order Number</th>
