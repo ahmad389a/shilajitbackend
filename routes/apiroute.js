@@ -107,15 +107,18 @@ router.post('/webhook', async (req, res) => {
       const billingAddressMetadata = JSON.parse(paymentIntent.metadata.billingAddress);
       const orderNumber = paymentIntent.metadata.order_Number;
       const total = paymentIntent.amount_total;
+      const email_address =billingAddressMetadata.emailAddress;
+      const stripe_id =paymentIntent.id;
       const order = new Order({
         orderNumber,
         cartItems: cartItemsMetadata,
         billingAddress: billingAddressMetadata,
         total,
+        stripe_id,
       });
       await order.save();
       await sendCustomerConfirmationEmail(
-        'bopafoj312@docwl.com', 
+        email_address, 
         orderNumber,
         cartItemsMetadata,
         billingAddressMetadata
