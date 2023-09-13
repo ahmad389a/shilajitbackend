@@ -7,7 +7,7 @@ const Stripe = require("stripe");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const stripe = Stripe(
-  "sk_test_51Nk6wxAQzgSCHThD77QMkQGBsJlg5jxIajwpx4trzL4RmCa1WT2YOG5CnVhwLqaApNT0xjvVbXlJcuLMmdml8Ao900f1JjkQaS"
+  "sk_test_51Np5KJLohDizpnvPyxcbbf7SwYK8FroqhiahUi9ixNtyfmfsue1H33WXbchduKiTjYgOSb5XukWQxhAt7wbRlmzr00oENgStEE"
 );
 router.use(bodyParser.json());
 router.get("/products", async (req, res) => {
@@ -78,7 +78,7 @@ router.post("/create-checkout-session", async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       line_items,
       mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/checkout-success`,
+      success_url: `${process.env.CLIENT_URL}/order-success`,
       cancel_url: `${process.env.CLIENT_URL}/cart`,
       metadata: {
         cartItems: cartItemsJson,
