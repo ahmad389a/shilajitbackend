@@ -51,13 +51,13 @@ const sendCustomerConfirmationEmail = async (
               .map(
                 (item) => `
                 <tr style="border-bottom: 1px solid; border-color:#E8E8E8;">
-                   <th colspan="2" style="padding: 15px; width: 50%; font-weight:500;">Product Name</th><td style="width: 460px;">${item.name}</td>
+                   <th colspan="2" style="padding: 15px; width: 50%; font-weight:500;">Product Name</th><td">${item.name}</td>
                  </tr>
                   <tr style="border-bottom: 1px solid; border-color: #E8E8E8;">
-                   <th colspan="2" style="padding: 15px; width: 50%; font-weight:500;">Price</th><td style="width: 460px;">$${(item.price / 100).toFixed(2)}</td>
+                   <th colspan="2" style="padding: 15px; width: 50%; font-weight:500;">Price</th><td >$${(item.price / 100).toFixed(2)}</td>
                     </tr>
                    <tr>
-                   <th colspan="2"  style="padding: 15px; width: 50%; font-weight:500;">Quantity</th><td style="width: 460px;">${item.quantity}</td>
+                   <th colspan="2"  style="padding: 15px; width: 50%; font-weight:500;">Quantity</th><td >${item.quantity}</td>
                 </tr>
               `
               )
@@ -72,20 +72,20 @@ const sendCustomerConfirmationEmail = async (
   <table style="background-color:#F5F9FC; padding: 10px; margin-left: 2%; border-radius: 5px; ">  
     <tbody>      
           <tr style="border-bottom: 1px solid; border-color:#E8E8E8;">
-            <th style="padding: 15px; width: 50%; font-weight:500;">Name</th><td style="width: 460px;">${billingAddressMetadata.firstName} ${billingAddressMetadata.lastName}</td>
+            <th style="padding: 15px; width: 50%; font-weight:500;">Name</th><td >${billingAddressMetadata.firstName} ${billingAddressMetadata.lastName}</td>
             </tr>
             <tr style="border-bottom: 1px solid; border-color: #E8E8E8;">
-            <th style="padding: 15px; width: 50%; font-weight:500;">Address:</th><td style="width: 460px;"> ${billingAddressMetadata.streetAddress} ${billingAddressMetadata.townCity} ${billingAddressMetadata.postcodeZIP} ${billingAddressMetadata.stateCounty}</td>
+            <th style="padding: 15px; width: 50%; font-weight:500;">Address:</th><td > ${billingAddressMetadata.streetAddress} ${billingAddressMetadata.townCity} ${billingAddressMetadata.postcodeZIP} ${billingAddressMetadata.stateCounty}</td>
           </tr>
           <tr style="border-bottom: 1px solid; border-color: #E8E8E8;">
-            <th style="padding: 15px; width: 50%; font-weight:500;">Contact:</th><td style="width: 460px;">${billingAddressMetadata.phone}</td>           
+            <th style="padding: 15px; width: 50%; font-weight:500;">Contact:</th><td >${billingAddressMetadata.phone}</td>           
             
           </tr>
           <tr style="border-bottom: 1px solid; border-color: #E8E8E8;">
-          <th style="padding: 15px; width: 50%; font-weight:500;">Email:</th><td style="width: 460px;" >${billingAddressMetadata.emailAddress}</td>           
+          <th style="padding: 15px; width: 50%; font-weight:500;">Email:</th><td >${billingAddressMetadata.emailAddress}</td>           
          </tr>
            <tr>
-          <th style="padding: 15px; width: 50%; font-weight:500;">Visit our website:</th><td colspan="2"><a href="https://naturensskatter.com/">Naturensskatter</a></td>           
+          <th style="padding: 15px; width: 50%; font-weight:500;">Visit our website:</th><td><a href="https://naturensskatter.com/">Naturensskatter</a></td>           
          </tr>
        </tbody>
   </table>
