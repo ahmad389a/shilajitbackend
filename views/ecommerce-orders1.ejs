@@ -8,13 +8,13 @@
 <link rel="stylesheet" href="/assets/libs/flatpickr/flatpickr.min.css">
 <style>
 .table-container {
-  max-height: 400px; 
-  overflow-y: auto; 
-  border: 1px solid #ccc; 
+  max-height: 400px; /* Adjust the maximum height as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ccc; /* Add a border for styling */
 }
 .table {
-  width: 100%; 
-  border-collapse: collapse; 
+  width: 100%; /* Make the table fill its container width */
+  border-collapse: collapse; /* Collapse table borders */
 }
 </style>
 <%- contentFor('body') %>
@@ -80,15 +80,6 @@
             <% } %>
           </tbody>
         </table> 
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </nav>
       </div>
     </div>
   </div>
@@ -119,57 +110,3 @@
     alert('Stripe ID copied to clipboard: ' + stripeId);
   }
 </script>
-<!-- <script>
-  var someVar = 10;
-
-
-function PaginationFunction() {
-        if (objJson.length > 10) {
-                document.getElementById("nextPage").style.visibility = "visible";
-        }
-
-        if (someVar <= 10) {
-                document.getElementById("prevPage").style.visibility ="hidden";
-        } else {
-                document.getElementById("prevPage").style.visibility = "visible";
-        }
-}
-
-
-function nextPage() {
-        document.getElementById("listingTable").innerHTML = "";
-
-        if (someVar < objJson.length) {
-                document.getElementById("nextPage").style.visibility = "visible";
-        } else {
-                document.getElementById("nextPage").style.visibility = "hidden";
-        }
-
-        for (var i = someVar - 50; i < someVar; i++) {
-                document.getElementById("listingTable").innerHTML += objJson[i].adName + "<br>";
-        }
-
-        someVar += 50;
-
-        document.getElementById("prevPage").style.visibility = "visible";
-}
-
-
-function prevPage() {
-        document.getElementById("listingTable").innerHTML = "";
-
-        if (someVar > 10) {
-                document.getElementById("prevPage").style.visibility = "visible";
-        } else {
-                document.getElementById("prevPage").style.visibility = "hidden";
-        }
-
-        for (var i = someVar - 10; i < someVar; i++) {
-                document.getElementById("listingTable").innerHTML += objJson[i].adName + "<br>";
-        }
-
-        someVar -= 10;
-
-        document.getElementById("nextPage").style.visibility = "visible";
-}
-</script> -->
