@@ -36,7 +36,7 @@ router.get("/products/:productId", async (req, res) => {
 router.get("/coupons/:couponName", async (req, res) => {
   try {
     const couponName = req.params.couponName;
-    const coupon = await Coupon.findById(couponName);
+    const coupon = await Coupon.findOne({ c_name: couponName });
     if (!coupon) {
       return res.status(404).json({ message: "Coupon not found" });
     }

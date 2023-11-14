@@ -5,8 +5,7 @@ const cors = require("cors");
 const app = express();
 const path = require("path");
 const pageRouter = require("./routes/routes");
-const apiRoutes = require("./routes/apiroute.js");
-const couponRoutes = require("./routes/couponroute.js");
+const apiRoutes = require("./routes/apiroute.js");  
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -29,7 +28,6 @@ app.use(
 var urlencodeParser = bodyParser.urlencoded({ extended: true });
 app.use(urlencodeParser);
 app.use("/api", apiRoutes);
-app.use("/api/coupon", couponRoutes);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 // app.use(upload());
