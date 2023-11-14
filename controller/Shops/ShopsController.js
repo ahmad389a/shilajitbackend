@@ -1,6 +1,7 @@
 const shop = require("../../models/ShopsModel");
 const randomstring = require('randomstring');
 const Order = require("../../models/Order");
+// const Coupon = require ('../..models/CouponModel');
 
 exports.add_product = (req, res) => {
     res.render("ecommerce-add-product", {
@@ -149,3 +150,15 @@ exports.all_orders = async (req, res) => {
     res.redirect("/products");
   }
 };
+// exports.all_coupons = async (req, res) => {
+//   try {
+//     const coupons = await Coupon.find(); 
+//     const messages = req.flash();
+//     console.log("-----------------------",coupons)
+//     res.render('ecommerce-all-coupon', {coupons,messages});
+//   } catch (error) {
+//     console.log(error)
+//     req.flash("error", `Error Fetching  orders: ${error.message}`);
+//     res.redirect("/products");
+//   }
+// };

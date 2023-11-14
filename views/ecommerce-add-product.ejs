@@ -2,9 +2,9 @@
 <%-include("partials/title-meta", {"title": "Add Product"})%>
 <!-- choices css -->
 <link href="/assets/libs/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" type="text/css" />
-
 <!-- dropzone css -->
 <link href="/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+
 <%- contentFor('body') %>
 <%-include("partials/page-title", {"pagetitle": "Ecommerce", "title": "Add Product"})%>
 <div class="row">
@@ -13,7 +13,6 @@
       <div class="card">
         <a href="#addproduct-productinfo-collapse" class="text-dark" data-bs-toggle="collapse" aria-expanded="true" aria-controls="addproduct-productinfo-collapse">
           <div class="p-4">
-
             <div class="d-flex align-items-center">
               <div class="flex-shrink-0 me-3">
                 <div class="avatar-sm">
@@ -29,305 +28,183 @@
               <div class="flex-shrink-0">
                 <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
               </div>
+            </div>
+          </div>
+        </a>
+        <div id="addproduct-productinfo-collapse" class="collapse show" data-bs-parent="#addproduct-accordion">
+          <div class="p-4 border-top">
+              <!-- -----------Main Form-------------- -->
+            <form action="/save_product" method="post" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label class="form-label" for="productname">Product Name</label>
+                <input id="productname" name="p_name" placeholder="Enter Product Name" type="text" class="form-control">
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label" for="price">Price</label>
+                    <input id="price" name="p_price" placeholder="Enter Price" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label" for="price">Discounted Price</label>
+                    <input id="price" name="p_d_price" placeholder="Enter Discounted Price" type="text" class="form-control">
+                  </div>
+                </div>
+                <!-- <div class="col-lg-4">
+                  <div class="mb-3">
+                    <label class="form-label" for="price">Price</label>
+                    <input id="price" name="price" placeholder="Enter Price" type="text" class="form-control">
+                  </div>
+                </div> -->
+              </div>
+              <div class="row">
+               
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="choices-single-default" class="form-label">Size</label>
+                    <select class="form-control" data-trigger name="p_size" id="choices-single-category">
+                      <option value="">Select</option>
+                      <option value="30">30G</option>
+                      <option value="50">60G</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="qty" class="form-label">Quantity</label>
+                    <input id="qty" name="p_qty" placeholder="Enter Quantity" type="number" min="1" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="mb-0">
+                <label class="form-label" for="productdesc">Product Description</label>
+                <textarea class="form-control" id="productdesc"  name="p_desc"  placeholder="Enter Product Description" rows="4"></textarea>
+              </div>
+              </div>            
+            <!-- </form> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <a href="#addproduct-img-collapse" class="text-dark collapsed" data-bs-toggle="collapse" aria-haspopup="true" aria-expanded="false" aria-haspopup="true" aria-controls="addproduct-img-collapse">
+          <div class="p-4">
+
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <div class="avatar-sm">
+                  <div class="avatar-title rounded-circle bg-primary-subtle text-primary">
+                    02
+                  </div>
+                </div>
+              </div>
+              <div class="flex-grow-1 overflow-hidden">
+                <h5 class="font-size-16 mb-1">Product Image</h5>
+                <p class="text-muted text-truncate mb-0">Fill all information below</p>
+              </div>
+              <div class="flex-shrink-0">
+                <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
+              </div>
 
             </div>
 
           </div>
         </a>
 
-        <div id="addproduct-productinfo-collapse" class="collapse show" data-bs-parent="#addproduct-accordion">
+        <div id="addproduct-img-collapse" class="collapse show" data-bs-parent="#addproduct-accordion">
           <div class="p-4 border-top">
-            <form action="/add-shilajit-product" method="post">
-              <div class="mb-3">
-                <label class="form-label" for="productname">Product Name</label>
-                <input id="productname" name="p_name" placeholder="Enter Product Name" type="text" class="form-control">
-              </div>
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="mb-3">
-                    <label class="form-label" for="price">Price</label>
-                    <input id="price" name="p_price" placeholder="Enter Price" type="number" class="form-control">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="mb-3">
-                    <label class="form-label" for="Quantity">Quantity</label>
-                    <input id="Quantity" name="Quantity" placeholder="Enter Quantity" type="number" class="form-control">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="mb-3">
-                    <label class="form-label" for="discount_price">discount_price</label>
-                    <input id="discount_price" name="discount_price" placeholder="Enter discount_price" type="number" class="form-control">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="size" class="form-label">Size</label>
-                    <select class="form-control" data-trigger name="size" id="size">
-                      <option value="">Select</option>
-                      <option value="20">20 Gram</option>
-                      <option value="50">50 Gram</option> 
-                    </select>
-                  </div>
-                </div>
+
+            <!-- ----------Form--------------- -->
+
+            <!-- <form action="#" class="dropzone dz-clickable"> -->
+            <div class="dropzone dz-clickable">
+              <div class="fallback">
+                <input name="files" type="file" multiple>
               </div>
 
-              <div class="mb-0">
-                <label class="form-label" for="p_description">Product Description</label>
-                <textarea class="form-control" id="p_description" name="p_description" placeholder="Enter Description" rows="4"></textarea>
-              </div>
+              <div class="dz-message needsclick">
+                <div class="mb-3">
+                  <i class="display-4 text-muted mdi mdi-cloud-upload"></i>
+                </div>
 
-              <div id="addproduct-img-collapse" class="collapse show" data-bs-parent="#addproduct-accordion">
-                <div class="p-4 border-top">
-                
-                    <div class="fallback">
-                      <input name="p_images" type="file" multiple="multiple">
-                    </div>
-      
-                    <div class="dz-message needsclick">
-                      <div class="mb-3">
-                        <i class="display-4 text-muted mdi mdi-cloud-upload"></i>
-                      </div>
-      
-                      <h4>Drop files here or click to upload.</h4>
-                    </div>
-                  
+                <h4>Drop files here or click to upload.</h4>
+              </div>
+            </div>
+            <!-- </form> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-5">
+        <a href="#addproduct-metadata-collapse" class="text-dark collapsed" data-bs-toggle="collapse" aria-haspopup="true" aria-expanded="false" aria-haspopup="true" aria-controls="addproduct-metadata-collapse">
+          <div class="p-4">
+
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <div class="avatar-sm">
+                  <div class="avatar-title rounded-circle bg-primary-subtle text-primary">
+                    03
+                  </div>
                 </div>
               </div>
+              <div class="flex-grow-1 overflow-hidden">
+                <h5 class="font-size-16 mb-1">Meta Data</h5>
+                <p class="text-muted text-truncate mb-0">Fill all information below</p>
+              </div>
+              <div class="flex-shrink-0">
+                <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
+              </div>
 
+            </div>
+
+          </div>
+        </a>
+
+        <div id="addproduct-metadata-collapse" class="collapse" data-bs-parent="#addproduct-accordion">
+          <div class="p-4 border-top">
+              <!-- ------------------------- -->
+            <!-- <form> -->
               <div class="row">
                 <div class="col-sm-6">
                   <div class="mb-3">
                     <label class="form-label" for="metatitle">Meta Title</label>
-                    <input id="metatitle" name="meta_title" placeholder="Enter Title" type="text" class="form-control">
+                    <input id="metatitle" name="m_title" placeholder="Enter Title" type="text" class="form-control">
                   </div>
 
-      <% if (messages.error && messages.error.length > 0) { %>
-        <div class="alert alert-danger">
-          <% messages.error.forEach(function(error) { %>
-            <p><%= error %></p>
-          <% }); %>
-        </div>
-      <% } %>
-    
-      <% if (messages.success && messages.success.length > 0) { %>
-        <div class="alert alert-success">
-          <% messages.success.forEach(function(success) { %>
-            <p><%= success %></p>
-          <% }); %>
-        </div>
-      <% } %>
-      <form action="/save_product" method="post" enctype="multipart/form-data">
-        <div class="card">
-          <a href="#addproduct-productinfo-collapse" class="text-dark" data-bs-toggle="collapse" aria-expanded="true" aria-controls="addproduct-productinfo-collapse">
-            <div class="p-4">
-
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0 me-3">
-                  <div class="avatar-sm">
-                    <div class="avatar-title rounded-circle bg-primary-subtle text-primary">
-                      01
-                    </div>
-                  </div>
-                </div>
-                <div class="flex-grow-1 overflow-hidden">
-                  <h5 class="font-size-16 mb-1">Product Info</h5>
-                  <p class="text-muted text-truncate mb-0">Fill all information below</p>
-                </div>
-                <div class="flex-shrink-0">
-                  <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
                 </div>
 
-              </div>
-
-            </div>
-          </a>
-
-          <div id="addproduct-productinfo-collapse" class="collapse show" data-bs-parent="#addproduct-accordion">
-            <div class="p-4 border-top">
-                <div class="mb-3">
-                  <label class="form-label" for="productname">Product Name</label>
-                  <input id="productname" name="p_name" placeholder="Enter Product Name" type="text" class="form-control">
-                </div>
-                <div class="row">
-                  <div class="col-lg-6">
-
-                    <div class="mb-3">
-                      <label class="form-label" for="price">Price</label>
-                      <input id="price" name="p_price" placeholder="Enter Price" type="text" class="form-control">
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="mb-3">
-                      <label class="form-label" for="price">Discounted Price</label>
-                      <input id="price" name="p_d_price" placeholder="Enter Discounted Price" type="text" class="form-control">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label for="choices-single-default" class="form-label">Size</label>
-                      <select class="form-control" data-trigger name="p_size" id="choices-single-category">
-                        <option value="">Select</option>
-                        <option value="30">30G</option>
-                        <option value="50">60G</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label for="qty" class="form-label">Quantity</label>
-                      <input id="qty" name="p_qty" placeholder="Enter Quantity" type="number" min="1" class="form-control">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mb-0">
-                  <label class="form-label" for="productdesc">Product Description</label>
-                  <textarea class="form-control" id="productdesc"  name="p_desc"  placeholder="Enter Product Description" rows="4"></textarea>
-                </div>
-              
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <a href="#addproduct-img-collapse" class="text-dark collapsed" data-bs-toggle="collapse" aria-haspopup="true" aria-expanded="false" aria-haspopup="true" aria-controls="addproduct-img-collapse">
-            <div class="p-4">
-
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0 me-3">
-                  <div class="avatar-sm">
-                    <div class="avatar-title rounded-circle bg-primary-subtle text-primary">
-                      02
-                    </div>
-                  </div>
-                </div>
-                <div class="flex-grow-1 overflow-hidden">
-                  <h5 class="font-size-16 mb-1">Product Image</h5>
-                  <p class="text-muted text-truncate mb-0">Fill all information below</p>
-                </div>
-                <div class="flex-shrink-0">
-                  <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
-                </div>
-
-              </div>
-
-            </div>
-          </a>
-
-          <div id="addproduct-img-collapse" class="collapse show" data-bs-parent="#addproduct-accordion">
-            <div class="p-4 border-top dropzone dz-clickable">
-              <!-- <form action="#" class="dropzone dz-clickable"> -->
-                <div class="fallback">
-                  <input name="files" type="file" multiple>
-                </div>
-
-                <div class="dz-message needsclick">
+                <div class="col-sm-6">
                   <div class="mb-3">
                     <label class="form-label" for="metakeywords">Meta Keywords</label>
                     <input id="metakeywords" name="meta_keywords" placeholder="Enter Keywords" type="text" class="form-control">
                     <i class="display-4 text-muted mdi mdi-cloud-upload"></i>
                   </div>
-
+                </div>
+              </div>
               <div class="mb-0">
                 <label class="form-label" for="metadescription">Meta Description</label>
                 <textarea class="form-control" id="metadescription" name=" meta_description" placeholder="Enter Description" rows="4"></textarea>
-              </div>
-              
-              <button type="button">Add Product</button>
-
-            </form>
+              </div>       
           </div>
         </div>
+     
       </div>
-
-      
-
-      
     </div>
-  </div>
-</div>
-
-                  <h4>Drop files here or click to upload.</h4>
-                </div>
-              <!-- </form> -->
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <a href="#addproduct-metadata-collapse" class="text-dark collapsed" data-bs-toggle="collapse" aria-haspopup="true" aria-expanded="false" aria-haspopup="true" aria-controls="addproduct-metadata-collapse">
-            <div class="p-4">
-
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0 me-3">
-                  <div class="avatar-sm">
-                    <div class="avatar-title rounded-circle bg-primary-subtle text-primary">
-                      03
-                    </div>
-                  </div>
-                </div>
-                <div class="flex-grow-1 overflow-hidden">
-                  <h5 class="font-size-16 mb-1">Meta Data</h5>
-                  <p class="text-muted text-truncate mb-0">Fill all information below</p>
-                </div>
-                <div class="flex-shrink-0">
-                  <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
-                </div>
-
-              </div>
-
-            </div>
-          </a>
-
-          <div id="addproduct-metadata-collapse" class="collapse" data-bs-parent="#addproduct-accordion">
-            <div class="p-4 border-top">
-              <!-- <form> -->
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="mb-3">
-                      <label class="form-label" for="metatitle">Meta Title</label>
-                      <input id="metatitle" name="m_title" placeholder="Enter Title" type="text" class="form-control">
-                    </div>
-
-                  </div>
-
-                  <div class="col-sm-6">
-                    <div class="mb-3">
-                      <label class="form-label" for="metakeywords">Meta Keywords</label>
-                      <input id="metakeywords" name="m_keywords" placeholder="Enter Keywords" type="text" class="form-control">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mb-0">
-                  <label class="form-label" for="m_description">Meta Description</label>
-                  <textarea class="form-control" id="m_description" placeholder="Enter Description" name="m_description" rows="4"></textarea>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-4">
-          <div class="col text-end">
-            <!-- <a href="#" class="btn btn-danger"> <i class="bx bx-x me-1"></i> Cancel </a> -->
-            <button class="btn btn-success" type="submit"><i class=" bx bx-file me-1"></i> Save </a></button>
-            <!-- <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#success-btn"> <i class=" bx bx-file me-1"></i> Save </a> -->
-          </div> 
-        </div> 
-      </form>
-    </div>
+    <button class="btn btn-success small" style="width: 15%;" data-bs-toggle="modal" data-bs-target="#success-btn" type="submit"><i class=" bx bx-file me-1"></i> Save </a></button>
+  </form> 
   </div>
 </div>
 <!-- end row -->
+
+<div class="row mb-4">
+  <div class="col text-end">  
+    <!-- <a href="#" class="btn btn-danger"> <i class="bx bx-x me-1"></i> Cancel </a> -->
+
+    <!-- <a href="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#success-btn"> <i class=" bx bx-file me-1"></i> Save </a> -->
+  </div> <!-- end col -->
+</div> <!-- end row-->
 <!-- successfully modal  -->
 <div id="success-btn" class="modal fade" tabindex="-1" aria-labelledby="success-btnLabel" aria-hidden="true" data-bs-scroll="true">
   <div class="modal-dialog modal-dialog-centered">

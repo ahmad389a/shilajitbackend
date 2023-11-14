@@ -3,6 +3,7 @@ const router = express.Router();
 const shop = require("../models/ShopsModel");
 const { sendCustomerConfirmationEmail, sendAdminNotificationEmail }  = require("../mailer/mailer");
 const  Order  = require("../models/Order");
+const  Coupon  = require("../models/CouponModel");
 const Stripe = require("stripe");
 const bodyParser = require("body-parser");
 require("dotenv").config();
@@ -32,6 +33,19 @@ router.get("/products/:productId", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+router.get("/coupons/:couponName", async (req, res) => {
+  try {
+    const couponName = req.params.couponName;
+    const coupon = await Coupon.findById(couponName);
+    if (!coupon) {
+      return res.status(404).json({ message: "Coupon not found" });
+    }
+    res.json(coupon);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 router.post("/create-checkout-session", async (req, res) => {
   try {
@@ -43,8 +57,8 @@ router.post("/create-checkout-session", async (req, res) => {
       price: item.price,
       quantity: item.quantity,
     }));
-    let orderCounter = 0;
 
+    let orderCounter = 0;
     function generateOrderNumber() {
       const now = new Date();
       const year = now.getFullYear().toString().slice(-2);
@@ -55,6 +69,7 @@ router.post("/create-checkout-session", async (req, res) => {
       const orderNumber = `${year}${month}${day}${counter}`;
       return orderNumber;
     }
+
     const orderNumber = generateOrderNumber();
     const cartItemsJson = JSON.stringify(formattedCartItems);
     const billingAddressJson = JSON.stringify(billingAddress);
@@ -97,6 +112,7 @@ router.post("/create-checkout-session", async (req, res) => {
       });
   }
 });
+
 router.post('/webhook', async (req, res) => {
   const event = req.body;
   try {
@@ -174,4 +190,8 @@ router.get('/orders', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
+
+
+
 module.exports = router;

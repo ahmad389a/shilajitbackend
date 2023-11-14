@@ -4,6 +4,8 @@ const route = express.Router();
 const AuthController = require("../controller/AuthController");
 const ShopsController = require("../controller/Shops/ShopsController");
 const testingController = require("../controller/testingController");
+const CouponController = require("../controller/Shops/CouponController");
+
 const { uploads } = require('../middlewares/uploadsWithMulter');
 
 module.exports = function (route) {
@@ -28,8 +30,16 @@ module.exports = function (route) {
     route.get("/view-product/:productId", ShopsController.view_product)
     route.post("/update-product/:productId", uploads.array('files', 5),ShopsController.update_product)
     route.post("/delete-product/", ShopsController.delete_product)
+    route.get("/add_coupon", CouponController.add_coupon)
+    route.get("/coupons", CouponController.coupon)
+    route.post("/save_coupon", CouponController.save_coupon)
+    route.get("/edit_coupon/:couponId", CouponController.edit_coupon)
+    route.post("/update_coupon/:couponId", CouponController.update_coupon)
+    route.post("/delete_coupon/", CouponController.delete_coupon)
+    // route.get("/view_coupon/:couponId", CouponController.view_coupon)  
+  
     route.get("/orders", ShopsController.all_orders)
-
+   
 
     route.get('/auth-confirm-mail', (req, res, next) => {
         res.render('auth-confirm-mail', { layout: 'layout/layout-without-nav' });
@@ -55,8 +65,6 @@ module.exports = function (route) {
     route.get('/auth-two-step-verification', (req, res, next) => {
         res.render('auth-two-step-verification', { layout: 'layout/layout-without-nav' });
     })
-
-
     route.get('/', (req, res, next) => {
         res.render('index', { title: 'Dashboard', page_title: 'Dashboard', folder: 'Dashboards' });
     })
@@ -259,8 +267,6 @@ module.exports = function (route) {
     route.get('/pages-maintenance', (req, res, next) => {
         res.render('pages-maintenance', { layout: 'layout/layout-without-nav' });
     })
-
-
 
 
 

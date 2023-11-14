@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 const express = require("express");
 const cors = require("cors");
-
 const app = express();
 const path = require("path");
 const pageRouter = require("./routes/routes");
 const apiRoutes = require("./routes/apiroute.js");
+const couponRoutes = require("./routes/couponroute.js");
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -29,6 +29,7 @@ app.use(
 var urlencodeParser = bodyParser.urlencoded({ extended: true });
 app.use(urlencodeParser);
 app.use("/api", apiRoutes);
+app.use("/api/coupon", couponRoutes);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 // app.use(upload());
@@ -43,7 +44,6 @@ app.use(cookieParser());
 app.set("layout", "layout/layout");
 app.use(expressLayouts);
 app.use(flash());
-
 app.use("/uploads/images", express.static("./uploads/images"));
 
 /* ---------for Local database connection---------- */
