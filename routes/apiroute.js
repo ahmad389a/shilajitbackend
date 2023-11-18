@@ -49,15 +49,23 @@ router.get("/coupons/:couponName", async (req, res) => {
 
 router.post("/create-checkout-session", async (req, res) => {
   try {
-    const { cartItems, billingAddress } = req.body;
-    console.log("------BillingInfo----------", billingAddress);
+    const { cartItems, billingAddress,couponDetails } = req.body;
+    console.log("------couponDetails----------", couponDetails);
     const formattedCartItems = cartItems.map((item) => ({
       id: item.id,
       name: item.name,
       price: item.price,
       quantity: item.quantity,
     }));
-
+    const formattedcouponDetails = {
+      c_name: couponDetails.c_name,
+      c_discount_price: couponDetails.c_discount_price,
+      discountedTotalAmount: couponDetails.discountedTotalAmount,
+    };
+    const c_discount_price = couponDetails.c_discount_price || 1; 
+    console.log("----C_price-----",c_discount_price);
+    const discountPercentage = 1 - (c_discount_price / 100);
+    console.log("----discountPercentage-----",discountPercentage); 
     let orderCounter = 0;
     function generateOrderNumber() {
       const now = new Date();
@@ -74,6 +82,8 @@ router.post("/create-checkout-session", async (req, res) => {
     const cartItemsJson = JSON.stringify(formattedCartItems);
     const billingAddressJson = JSON.stringify(billingAddress);
     const line_items = cartItems.map((item) => {
+      const discountedPrice = item.price * discountPercentage;
+      console.log("discountedPrice---------------", discountedPrice);
       return {
         price_data: {
           currency: "NOK",
@@ -84,7 +94,7 @@ router.post("/create-checkout-session", async (req, res) => {
               id: item.id,
             },
           },
-          unit_amount: item.price * 100,
+          unit_amount: Math.round(discountedPrice * 100),
         },
         quantity: item.quantity,
       };
@@ -99,6 +109,7 @@ router.post("/create-checkout-session", async (req, res) => {
         cartItems: cartItemsJson,
         billingAddress: billingAddressJson,
         order_Number:orderNumber,
+        discountedPrices: JSON.stringify(formattedcouponDetails),
       },
     });
 
@@ -113,83 +124,83 @@ router.post("/create-checkout-session", async (req, res) => {
   }
 });
 
-router.post('/webhook', async (req, res) => {
-  const event = req.body;
-  try {
+// router.post('/webhook', async (req, res) => {
+//   const event = req.body;
+//   try {
 
-    if (event.type === 'checkout.session.completed') {
-      const paymentIntent = event.data.object;
-      const cartItemsMetadata = JSON.parse(paymentIntent.metadata.cartItems);
-      const billingAddressMetadata = JSON.parse(paymentIntent.metadata.billingAddress);
-      const orderNumber = paymentIntent.metadata.order_Number;
-      const total = paymentIntent.amount_total;
-      const email_address =billingAddressMetadata.emailAddress;
-      const stripe_id =paymentIntent.id;
-      const order = new Order({
-        orderNumber,
-        cartItems: cartItemsMetadata,
-        billingAddress: billingAddressMetadata,
-        total,
-        stripe_id,
-      });
-      await order.save();
-      await sendCustomerConfirmationEmail(
-        email_address, 
-        orderNumber,
-        cartItemsMetadata,
-        billingAddressMetadata
-      );
-      await sendAdminNotificationEmail(orderNumber, cartItemsMetadata, billingAddressMetadata);
-      console.log("order creted----------------------------")
-    }
+//     if (event.type === 'checkout.session.completed') {
+//       const paymentIntent = event.data.object;
+//       const cartItemsMetadata = JSON.parse(paymentIntent.metadata.cartItems);
+//       const billingAddressMetadata = JSON.parse(paymentIntent.metadata.billingAddress);
+//       const orderNumber = paymentIntent.metadata.order_Number;
+//       const total = paymentIntent.amount_total;
+//       const email_address =billingAddressMetadata.emailAddress;
+//       const stripe_id =paymentIntent.id;
+//       const order = new Order({
+//         orderNumber,
+//         cartItems: cartItemsMetadata,
+//         billingAddress: billingAddressMetadata,
+//         total,
+//         stripe_id,
+//       });
+//       await order.save();
+//       await sendCustomerConfirmationEmail(
+//         email_address, 
+//         orderNumber,
+//         cartItemsMetadata,
+//         billingAddressMetadata
+//       );
+//       await sendAdminNotificationEmail(orderNumber, cartItemsMetadata, billingAddressMetadata);
+//       console.log("order creted----------------------------")
+//     }
 
-    res.json({ received: true });
-  } catch (error) {
-    console.error('Error handling webhook event:', error);
-    res.status(500).json({ error: 'Webhook error' });
-  }
-});
-router.get("/orders", async (req, res) => {
-  try {
-    const orders = await Order.find();
-    res.json(orders);
-  } catch (error) {
-    console.error("Error fetching orders:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
-router.get('/orders', async (req, res) => {
-  try {
-    // Get the date parameter from the query string
-    const date = req.query.date;
+//     res.json({ received: true });
+//   } catch (error) {
+//     console.error('Error handling webhook event:', error);
+//     res.status(500).json({ error: 'Webhook error' });
+//   }
+// });
+// router.get("/orders", async (req, res) => {
+//   try {
+//     const orders = await Order.find();
+//     res.json(orders);
+//   } catch (error) {
+//     console.error("Error fetching orders:", error);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// });
+// router.get('/orders', async (req, res) => {
+//   try {
+//     // Get the date parameter from the query string
+//     const date = req.query.date;
 
-    // Ensure that the date parameter is provided
-    if (!date) {
-      return res.status(400).json({ message: 'Date parameter is required' });
-    }
+//     // Ensure that the date parameter is provided
+//     if (!date) {
+//       return res.status(400).json({ message: 'Date parameter is required' });
+//     }
 
-    // Parse the date string into a JavaScript Date object
-    const selectedDate = new Date(date);
+//     // Parse the date string into a JavaScript Date object
+//     const selectedDate = new Date(date);
 
-    // Set the start and end of the selected date (from midnight to 11:59:59 PM)
-    selectedDate.setHours(0, 0, 0, 0);
-    const endDate = new Date(selectedDate);
-    endDate.setHours(23, 59, 59, 999);
+//     // Set the start and end of the selected date (from midnight to 11:59:59 PM)
+//     selectedDate.setHours(0, 0, 0, 0);
+//     const endDate = new Date(selectedDate);
+//     endDate.setHours(23, 59, 59, 999);
 
-    // Query the database for orders within the selected date range
-    const orders = await Order.find({
-      createdAt: {
-        $gte: selectedDate,
-        $lte: endDate,
-      },
-    });
+//     // Query the database for orders within the selected date range
+//     const orders = await Order.find({
+//       createdAt: {
+//         $gte: selectedDate,
+//         $lte: endDate,
+//       },
+//     });
 
-    res.json(orders);
-  } catch (error) {
-    console.error('Error fetching orders by date:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
+//     res.json(orders);
+//   } catch (error) {
+//     console.error('Error fetching orders by date:', error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
 
 
 
