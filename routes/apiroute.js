@@ -62,6 +62,12 @@ router.post("/create-checkout-session", async (req, res) => {
       c_discount_price: couponDetails.c_discount_price,
       discountedTotalAmount: couponDetails.discountedTotalAmount,
     };
+
+
+
+
+
+    
     const c_discount_price = couponDetails.c_discount_price || 1; 
     console.log("----C_price-----",c_discount_price);
     const discountPercentage = 1 - (c_discount_price / 100);
