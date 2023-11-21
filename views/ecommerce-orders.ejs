@@ -6,17 +6,8 @@
 
 <!-- datepicker css -->
 <link rel="stylesheet" href="/assets/libs/flatpickr/flatpickr.min.css">
-<style>
-.table-container {
-  max-height: 400px; 
-  overflow-y: auto; 
-  border: 1px solid #ccc; 
-}
-.table {
-  width: 100%; 
-  border-collapse: collapse; 
-}
-</style>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
 <%- contentFor('body') %>
 <%-include("partials/page-title", {"pagetitle": "Ecommerce", "title": "Orders"})%>
 <div class="row">
@@ -25,13 +16,16 @@
       <div class="card-header">
       </div>
       <div class="card-body table-container">
-        <table class="table mb-0" style="border-bottom: 1px solid black;">
+        <table id="table-order"  class="table mb-0" style="border-bottom: 1px solid black;">
           <thead class="table-dark" style="position:fixed-top;">
             <tr>
               <th class="text-center">#</th>
               <th class="text-center">Order Number</th>
               <th class="text-center">Stripe Transcation ID</th>
               <th class="text-center">Total</th>
+              <th class="text-center">Coupon Name</th>
+              <th class="text-center">Coupon Discount</th>
+              <th class="text-center">Discounted Subtotal</th>
               <th class="text-center">Customer Name</th>
               <th class="text-center">Customer Address</th>
               <th class="text-center">Customer Contact</th>
@@ -49,7 +43,10 @@
                   <td class="text-center"><%= index + 1 %></td>
                   <td class="text-center"><%= order.orderNumber %></td>
                   <td class="text-center">  <button class="btn btn-sm btn-primary copy-button" data-stripe-id="<%= order.stripe_id %>" onclick="copyStripeId(this)"> <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#203b6a}</style><path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"/></svg></button></td>
-                  <td class="text-center">KR<%= order.total %></td>
+                  <td class="text-center">Kr<%= order.total %></td>
+                  <td class="text-center">Kr<%= order.total %></td>
+                  <td class="text-center">Kr<%= order.total %></td>
+                  <td class="text-center">Kr<%= order.total %></td>
                   <td class="text-center"><%= order.billingAddress.firstName %> <%= order.billingAddress.lastName %></td>
                   <td class="text-center"><%= order.billingAddress.streetAddress %> <%= order.billingAddress.townCity %> <%= order.billingAddress.postcodeZIP %> <%= order.billingAddress.stateCounty %></td>
                   <td class="text-center"><%= order.billingAddress.phone %></td>
@@ -68,7 +65,7 @@
                           <tr>
                             <td class="text-center"><%= itemIndex + 1 %></td>
                             <td class="text-center"><%= item.name %></td>
-                            <td class="text-center">$<%= item.price %></td>
+                            <td class="text-center">Kr<%= item.price %></td>
                             <td class="text-center"><%= item.quantity %></td>
                           </tr>
                         <% }); %>
@@ -80,15 +77,6 @@
             <% } %>
           </tbody>
         </table> 
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </nav>
       </div>
     </div>
   </div>
@@ -96,15 +84,22 @@
 <!-- end row -->
 <!-- end modal -->
 <%- contentFor('FooterJs') %>
-<!-- gridjs js -->
-<script src="/assets/libs/gridjs/gridjs.umd.js"></script>
-
-<!-- datepicker js -->
+<!-- <script src="/assets/libs/gridjs/gridjs.umd.js"></script> -->
 <script src="/assets/libs/flatpickr/flatpickr.min.js"></script>
-
 <script src="/assets/js/pages/ecommerce-orders.init.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  // JavaScript function to copy the Stripe ID to the clipboard
+ 
+  $(document).ready(function () {
+    $('#table-order').DataTable({
+      "ordering": false // This disables sorting for the entire table
+    });
+  });
+
+</script>
+<script>
   function copyStripeId(button) {
     const stripeId = button.getAttribute('data-stripe-id');
 
@@ -114,62 +109,6 @@
     tempInput.select();
     document.execCommand('copy');
     document.body.removeChild(tempInput);
-
-    // You can provide a visual feedback to the user (e.g., tooltip, alert) to indicate successful copy.
     alert('Stripe ID copied to clipboard: ' + stripeId);
   }
 </script>
-<!-- <script>
-  var someVar = 10;
-
-
-function PaginationFunction() {
-        if (objJson.length > 10) {
-                document.getElementById("nextPage").style.visibility = "visible";
-        }
-
-        if (someVar <= 10) {
-                document.getElementById("prevPage").style.visibility ="hidden";
-        } else {
-                document.getElementById("prevPage").style.visibility = "visible";
-        }
-}
-
-
-function nextPage() {
-        document.getElementById("listingTable").innerHTML = "";
-
-        if (someVar < objJson.length) {
-                document.getElementById("nextPage").style.visibility = "visible";
-        } else {
-                document.getElementById("nextPage").style.visibility = "hidden";
-        }
-
-        for (var i = someVar - 50; i < someVar; i++) {
-                document.getElementById("listingTable").innerHTML += objJson[i].adName + "<br>";
-        }
-
-        someVar += 50;
-
-        document.getElementById("prevPage").style.visibility = "visible";
-}
-
-
-function prevPage() {
-        document.getElementById("listingTable").innerHTML = "";
-
-        if (someVar > 10) {
-                document.getElementById("prevPage").style.visibility = "visible";
-        } else {
-                document.getElementById("prevPage").style.visibility = "hidden";
-        }
-
-        for (var i = someVar - 10; i < someVar; i++) {
-                document.getElementById("listingTable").innerHTML += objJson[i].adName + "<br>";
-        }
-
-        someVar -= 10;
-
-        document.getElementById("nextPage").style.visibility = "visible";
-}
-</script> -->

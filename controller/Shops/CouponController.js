@@ -18,8 +18,8 @@ exports.add_coupon = (req, res) => {
   });
 };
 exports.save_coupon = async (req, res) => {
-  const { c_name, c_expiry, c_discount_price } = req.body;
-  const requiredFields = ['c_name', 'c_expiry', 'c_discount_price'];
+  const { c_name, c_expiry, c_discount_price , c_Validity} = req.body;
+  const requiredFields = ['c_name', 'c_expiry', 'c_discount_price', 'c_Validity'];
   const emptyFields = requiredFields.filter(field => !req.body[field]);
 
   if (emptyFields.length > 0) {
@@ -32,6 +32,7 @@ exports.save_coupon = async (req, res) => {
       const coupon = new coupons({
         c_name:c_name,
         c_expiry:c_expiry,
+        c_Validity:c_Validity,
         c_discount_price:c_discount_price,
       });
       await coupon.save();
@@ -60,8 +61,8 @@ exports.edit_coupon = async (req,res) =>{
 };
 
 exports.update_coupon = async (req, res) => {
-  const {c_name,c_expiry,c_discount_price } = req.body;
-  const requiredFields = ['c_name','c_expiry','c_discount_price' ];
+  const {c_name,c_expiry,c_discount_price ,c_Validity} = req.body;
+  const requiredFields = ['c_name','c_expiry','c_discount_price', 'c_Validity' ];
   const emptyFields = requiredFields.filter(field => !req.body[field]);
   const couponId = req.params.couponId;
   if (emptyFields.length > 0) {
@@ -85,6 +86,7 @@ exports.update_coupon = async (req, res) => {
       // }
       existingCoupon.c_name = c_name;
       existingCoupon.c_expiry = c_expiry;
+      existingCoupon.c_Validity = c_Validity;      
       existingCoupon.c_discount_price = c_discount_price;
      
       await existingCoupon.save();
