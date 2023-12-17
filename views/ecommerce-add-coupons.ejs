@@ -9,6 +9,13 @@
 <%-include("partials/page-title", {"pagetitle": "Ecommerce", "title": "Add coupon"})%>
 <div class="row">
   <div class="col-lg-12">
+    <% if (messages.error && messages.error.length > 0) { %>
+      <div class="alert alert-danger">
+        <% messages.error.forEach(function(error) { %>
+          <p><%= error %></p>
+        <% }); %>
+      </div>
+    <% } %>
     <div id="addproduct-accordion" class="custom-accordion">
       <div class="card">
         <a href="#addproduct-productinfo-collapse" class="text-dark" data-bs-toggle="collapse" aria-expanded="true" aria-controls="addproduct-productinfo-collapse">
@@ -48,8 +55,17 @@
               </div>
 
               <div class="mb-3">
-                <label class="form-label" for="coupondiscount">Discounted Price</label>
-                <input id="coupondiscount" name="c_discount_price" placeholder="Enter Discounted Price" type="text" class="form-control">
+                <label class="form-label" for="coupondiscount">Discount Price</label>
+                <input id="coupondiscount" name="c_discount_price" placeholder="Enter Discounted Price" type="text" class="form-control" min="0" max="100">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="discounttype">Discount Type</label>
+                <select class="form-select" aria-label="Default select example" name="d_type" id="discounttype">
+                  <option selected>Discount Type </option>
+                  <option value="percentage">Percentage</option>
+                  <option value="fixed">Fixed Amount</option>
+                 
+                </select>
               </div>
               <button class="btn btn-success small" style="width: 15%;" data-bs-toggle="modal" data-bs-target="#success-btn" type="submit"><i class=" bx bx-file me-1"></i> Save </a></button>
             </form> 

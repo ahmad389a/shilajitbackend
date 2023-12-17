@@ -42,7 +42,8 @@
                 <th>Name</th>
                 <th>Expiry Date</th>
                 <th>Validity</th>
-                <th>Discount</th>
+                <th>Discount Price</th>
+                <th>Discount Type</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -66,7 +67,8 @@
                       <% } %>
                     </td>
                     <td><%= coupen.c_Validity %></td>
-                    <td><%= coupen.c_discount_price %></td>        
+                    <td><%= coupen.c_discount_price %></td>   
+                    <td><%= coupen.d_type %></td>      
                   
                     <td>
                       <div class="dropdown">
