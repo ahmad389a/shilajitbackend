@@ -162,7 +162,7 @@ exports.delete_coupon = async (req, res) => {
   console.log("-------------------", req.body);
   try {
     const result = await coupons.findByIdAndUpdate(couponId, { is_deleted: 1 });
-    req.flash("success", "Product deleted successfully");
+    req.flash("success", "Coupon deleted successfully");
     res.redirect("/coupons");
   } catch (error) {
     req.flash("error", `Error Deleting the product: ${error.message}`);

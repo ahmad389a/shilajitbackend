@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const shop = require("../models/ShopsModel");
-const { sendCustomerConfirmationEmail, sendAdminNotificationEmail }  = require("../mailer/mailer");
-const  Order  = require("../models/Order");
-const  Coupon  = require("../models/CouponModel");
+const {
+  sendCustomerConfirmationEmail,
+  sendAdminNotificationEmail,
+} = require("../mailer/mailer");
+const Order = require("../models/Order");
+const Coupon = require("../models/CouponModel");
 const Stripe = require("stripe");
 const bodyParser = require("body-parser");
 require("dotenv").config();
@@ -36,7 +39,9 @@ router.get("/products/:productId", async (req, res) => {
 router.get("/coupons/:couponName", async (req, res) => {
   try {
     const couponName = req.params.couponName;
-    const coupon = await Coupon.findOne({ c_name: couponName });
+    const coupon = await Coupon.findOne({ c_name: couponName }).sort({
+      createdAt: -1,
+    });
     if (!coupon) {
       return res.status(404).json({ message: "Coupon not found" });
     }
@@ -49,30 +54,30 @@ router.get("/coupons/:couponName", async (req, res) => {
 
 router.post("/create-checkout-session", async (req, res) => {
   try {
-    const { cartItems, billingAddress,couponDetails } = req.body;
+    const { cartItems, billingAddress, couponDetails } = req.body;
     const formattedCartItems = cartItems.map((item) => ({
       id: item.id,
       name: item.name,
       price: item.price,
       quantity: item.quantity,
     }));
-    let c_discount_price = '';
-    let discountPercentage = '';
+    let c_discount_price = "";
+    let discountPercentage = "";
     let formattedcouponDetails = {};
-    if(couponDetails){
-      c_discount_price = couponDetails.c_discount_price || 1; 
-      console.log("----C_price-----",c_discount_price);
-      discountPercentage = 1 - (c_discount_price / 100);
-      console.log("----discountPercentage-----",discountPercentage); 
+    if (couponDetails) {
+      c_discount_price = couponDetails.c_discount_price || 1;
+      console.log("----C_price-----", c_discount_price);
+      discountPercentage = 1 - c_discount_price / 100;
+      console.log("----discountPercentage-----", discountPercentage);
     }
     let orderCounter = 0;
     function generateOrderNumber() {
       const now = new Date();
       const year = now.getFullYear().toString().slice(-2);
-      const month = (now.getMonth() + 1).toString().padStart(2, '0'); 
-      const day = now.getDate().toString().padStart(2, '0'); 
+      const month = (now.getMonth() + 1).toString().padStart(2, "0");
+      const day = now.getDate().toString().padStart(2, "0");
       orderCounter = (orderCounter + 1) % 1000;
-      const counter = orderCounter.toString().padStart(3, '0');
+      const counter = orderCounter.toString().padStart(3, "0");
       const orderNumber = `${year}${month}${day}${counter}`;
       return orderNumber;
     }
@@ -81,10 +86,9 @@ router.post("/create-checkout-session", async (req, res) => {
     const billingAddressJson = JSON.stringify(billingAddress);
     const line_items = cartItems.map((item) => {
       let total_amount = "";
-      if(discountPercentage){
+      if (discountPercentage) {
         total_amount = item.price * discountPercentage;
-      }
-      else{
+      } else {
         total_amount = item.price;
       }
       console.log("discountedPrice---------------", total_amount);
@@ -112,7 +116,7 @@ router.post("/create-checkout-session", async (req, res) => {
       metadata: {
         cartItems: cartItemsJson,
         billingAddress: billingAddressJson,
-        order_Number:orderNumber,
+        order_Number: orderNumber,
         discountedPrices: JSON.stringify(formattedcouponDetails),
       },
     });
@@ -120,26 +124,25 @@ router.post("/create-checkout-session", async (req, res) => {
     res.send({ url: session.url });
   } catch (error) {
     console.error("Error creating checkout session:", error);
-    res
-      .status(500)
-      .send({
-        error: "An error occurred while creating the checkout session.",
-      });
+    res.status(500).send({
+      error: "An error occurred while creating the checkout session.",
+    });
   }
 });
 
-router.post('/webhook', async (req, res) => {
+router.post("/webhook", async (req, res) => {
   const event = req.body;
   try {
-
-    if (event.type === 'checkout.session.completed') {
+    if (event.type === "checkout.session.completed") {
       const paymentIntent = event.data.object;
       const cartItemsMetadata = JSON.parse(paymentIntent.metadata.cartItems);
-      const billingAddressMetadata = JSON.parse(paymentIntent.metadata.billingAddress);
+      const billingAddressMetadata = JSON.parse(
+        paymentIntent.metadata.billingAddress
+      );
       const orderNumber = paymentIntent.metadata.order_Number;
       const total = paymentIntent.amount_total;
-      const email_address =billingAddressMetadata.emailAddress;
-      const stripe_id =paymentIntent.id;
+      const email_address = billingAddressMetadata.emailAddress;
+      const stripe_id = paymentIntent.id;
       const order = new Order({
         orderNumber,
         cartItems: cartItemsMetadata,
@@ -149,49 +152,46 @@ router.post('/webhook', async (req, res) => {
       });
       await order.save();
       await sendCustomerConfirmationEmail(
-        email_address, 
+        email_address,
         orderNumber,
         cartItemsMetadata,
         billingAddressMetadata
       );
-      await sendAdminNotificationEmail(orderNumber, cartItemsMetadata, billingAddressMetadata);
-      console.log("order creted----------------------------")
+      await sendAdminNotificationEmail(
+        orderNumber,
+        cartItemsMetadata,
+        billingAddressMetadata
+      );
+      console.log("order creted----------------------------");
     }
 
     res.json({ received: true });
   } catch (error) {
-    console.error('Error handling webhook event:', error);
-    res.status(500).json({ error: 'Webhook error' });
+    console.error("Error handling webhook event:", error);
+    res.status(500).json({ error: "Webhook error" });
   }
 });
 router.get("/orders", async (req, res) => {
   try {
-    const orders = await Order.find();
+    const orders = await Order.find().sort({ createdAt: -1 });
     res.json(orders);
   } catch (error) {
     console.error("Error fetching orders:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-router.get('/orders', async (req, res) => {
+router.get("/orders", async (req, res) => {
   try {
-    // Get the date parameter from the query string
     const date = req.query.date;
 
-    // Ensure that the date parameter is provided
     if (!date) {
-      return res.status(400).json({ message: 'Date parameter is required' });
+      return res.status(400).json({ message: "Date parameter is required" });
     }
-
-    // Parse the date string into a JavaScript Date object
     const selectedDate = new Date(date);
-
-    // Set the start and end of the selected date (from midnight to 11:59:59 PM)
     selectedDate.setHours(0, 0, 0, 0);
     const endDate = new Date(selectedDate);
     endDate.setHours(23, 59, 59, 999);
 
-    // Query the database for orders within the selected date range
     const orders = await Order.find({
       createdAt: {
         $gte: selectedDate,
@@ -201,12 +201,9 @@ router.get('/orders', async (req, res) => {
 
     res.json(orders);
   } catch (error) {
-    console.error('Error fetching orders by date:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error("Error fetching orders by date:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
-
-
 
 module.exports = router;
