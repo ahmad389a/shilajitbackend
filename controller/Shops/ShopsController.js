@@ -165,10 +165,10 @@ exports.all_orders = async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
     const messages = req.flash();
-    console.log("-----------------------", messages, orders);
+    // console.log("-----------------------", messages, orders);
     res.render("ecommerce-orders", { orders, messages });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     req.flash("error", `Error Fetching  orders: ${error.message}`);
     res.redirect("/products");
   }

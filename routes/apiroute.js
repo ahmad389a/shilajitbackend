@@ -135,6 +135,7 @@ router.post("/webhook", async (req, res) => {
   try {
     if (event.type === "checkout.session.completed") {
       const paymentIntent = event.data.object;
+      console.log("-------------",paymentIntent);
       const cartItemsMetadata = JSON.parse(paymentIntent.metadata.cartItems);
       const billingAddressMetadata = JSON.parse(
         paymentIntent.metadata.billingAddress
