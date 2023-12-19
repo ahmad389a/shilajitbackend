@@ -8,10 +8,6 @@ const transporter = nodemailer.createTransport({
     pass: "elldtlembxaphxfc",
   },
 });
-
-
-
-
 transporter.use(
   "compile",
   hbs({
