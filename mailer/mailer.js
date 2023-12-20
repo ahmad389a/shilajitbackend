@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const hbs = require("nodemailer-express-handlebars");
+// const hbs = require("nodemailer-express-handlebars");
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
@@ -8,13 +8,13 @@ const transporter = nodemailer.createTransport({
     pass: "elldtlembxaphxfc",
   },
 });
-transporter.use(
-  "compile",
-  hbs({
-    viewEngine: "express-handlebars",
-    viewPath: "./views/",
-  })
-);
+// transporter.use(
+//   "compile",
+//   hbs({
+//     viewEngine: "express-handlebars",
+//     viewPath: "./views/",
+//   })
+// );
 
 const sendCustomerConfirmationEmail = async (
   customerEmail,
