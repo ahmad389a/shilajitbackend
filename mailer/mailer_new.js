@@ -95,7 +95,7 @@ const sendAdminNotificationEmail = async (
 ) => {
   const adminEmailOptions = {
     from: "naturenskatter@gmail.com",
-    to: "yerohi7034@watrf.com",
+    to: "naturenskatter@gmail.com",
     subject: "New Order Notification",
     html: `
     <div class="container">  
