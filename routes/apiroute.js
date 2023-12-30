@@ -4,14 +4,14 @@ const shop = require("../models/ShopsModel");
 const {
   sendCustomerConfirmationEmail,
   sendAdminNotificationEmail,
-} = require("../mailer/mailer");
+} = require("../mailer/mailer_new");
 const Order = require("../models/Order");
 const Coupon = require("../models/CouponModel");
 const Stripe = require("stripe");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const stripe = Stripe(
-  "sk_test_51Np5KJLohDizpnvPyxcbbf7SwYK8FroqhiahUi9ixNtyfmfsue1H33WXbchduKiTjYgOSb5XukWQxhAt7wbRlmzr00oENgStEE"
+  "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"
 );
 router.use(bodyParser.json());
 router.get("/products", async (req, res) => {
@@ -70,16 +70,11 @@ router.post("/create-checkout-session", async (req, res) => {
       discountPercentage = 1 - c_discount_price / 100;
       console.log("----discountPercentage-----", discountPercentage);
     }
-    let orderCounter = 0;
     function generateOrderNumber() {
-      const now = new Date();
-      const year = now.getFullYear().toString().slice(-2);
-      const month = (now.getMonth() + 1).toString().padStart(2, "0");
-      const day = now.getDate().toString().padStart(2, "0");
-      orderCounter = (orderCounter + 1) % 1000;
-      const counter = orderCounter.toString().padStart(3, "0");
-      const orderNumber = `${year}${month}${day}${counter}`;
-      return orderNumber;
+      const min = 100000; 
+      const max = 999999; 
+      const orderNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+      return orderNumber.toString();
     }
     const orderNumber = generateOrderNumber();
     const cartItemsJson = JSON.stringify(formattedCartItems);
@@ -107,11 +102,10 @@ router.post("/create-checkout-session", async (req, res) => {
         quantity: item.quantity,
       };
     });
-
     const session = await stripe.checkout.sessions.create({
       line_items,
       mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/order-status`,
+      success_url: `${process.env.CLIENT_URL}order-status?orderNumber=${orderNumber}`,
       cancel_url: `${process.env.CLIENT_URL}/cart`,
       metadata: {
         cartItems: cartItemsJson,
@@ -142,8 +136,16 @@ router.post("/webhook", async (req, res) => {
       );
       const orderNumber = paymentIntent.metadata.order_Number;
       const total = paymentIntent.amount_total;
+      const subtotal = paymentIntent.amount_subtotal;
+      console.log("---total",total);
       const email_address = billingAddressMetadata.emailAddress;
       const stripe_id = paymentIntent.id;
+      const existingOrder = await Order.findOne({ orderNumber });
+
+      if (existingOrder) {
+        console.log(`Order with order number ${orderNumber} already exists. Skipping duplicate processing.`);
+        return res.json({ received: true });
+      }
       const order = new Order({
         orderNumber,
         cartItems: cartItemsMetadata,
@@ -160,6 +162,7 @@ router.post("/webhook", async (req, res) => {
       );
       await sendAdminNotificationEmail(
         orderNumber,
+        total,
         cartItemsMetadata,
         billingAddressMetadata
       );
