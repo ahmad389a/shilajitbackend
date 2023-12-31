@@ -11,7 +11,7 @@ const Stripe = require("stripe");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const stripe = Stripe(
-  "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"
+  "sk_test_51Np5KJLohDizpnvPyxcbbf7SwYK8FroqhiahUi9ixNtyfmfsue1H33WXbchduKiTjYgOSb5XukWQxhAt7wbRlmzr00oENgStEE"
 );
 router.use(bodyParser.json());
 router.get("/products", async (req, res) => {
@@ -63,13 +63,21 @@ router.post("/create-checkout-session", async (req, res) => {
     }));
     let c_discount_price = "";
     let discountPercentage = "";
-    let formattedcouponDetails = {};
+    const formattedcouponDetails = JSON.stringify(couponDetails);
     if (couponDetails) {
       c_discount_price = couponDetails.c_discount_price || 1;
       console.log("----C_price-----", c_discount_price);
       discountPercentage = 1 - c_discount_price / 100;
       console.log("----discountPercentage-----", discountPercentage);
     }
+    const totalDiscount = couponDetails
+      ? cartItems.reduce((total, item) => {
+          const discountedPrice = item.price * discountPercentage;
+          const discount = item.price - discountedPrice;
+          return total + discount * item.quantity;
+        }, 0)
+      : 0;
+    console.log("total_Discount",totalDiscount);
     function generateOrderNumber() {
       const min = 100000; 
       const max = 999999; 
@@ -111,7 +119,8 @@ router.post("/create-checkout-session", async (req, res) => {
         cartItems: cartItemsJson,
         billingAddress: billingAddressJson,
         order_Number: orderNumber,
-        discountedPrices: JSON.stringify(formattedcouponDetails),
+        discount:totalDiscount,
+        discountedPrices:(formattedcouponDetails),
       },
     });
 
@@ -129,20 +138,45 @@ router.post("/webhook", async (req, res) => {
   try {
     if (event.type === "checkout.session.completed") {
       const paymentIntent = event.data.object;
-      console.log("-------------",paymentIntent);
       const cartItemsMetadata = JSON.parse(paymentIntent.metadata.cartItems);
+      const CustomercartItemsMetadata = JSON.parse(paymentIntent.metadata.cartItems);
+      const couponDetailsMetadata = JSON.parse(paymentIntent.metadata.discountedPrices);
+      console.log("demo----",couponDetailsMetadata);
       const billingAddressMetadata = JSON.parse(
         paymentIntent.metadata.billingAddress
       );
+      const CustomerbillingAddressMetadata = JSON.parse(
+        paymentIntent.metadata.billingAddress
+      );
       const orderNumber = paymentIntent.metadata.order_Number;
+      const discountAmount = Math.round(parseFloat(paymentIntent.metadata.discount || 0));
+      const customerdiscountAmount = Math.round(parseFloat(paymentIntent.metadata.discount || 0));
       const total = paymentIntent.amount_total;
+      const Customertotal = paymentIntent.amount_total;
       const subtotal = paymentIntent.amount_subtotal;
-      console.log("---total",total);
       const email_address = billingAddressMetadata.emailAddress;
       const stripe_id = paymentIntent.id;
       const existingOrder = await Order.findOne({ orderNumber });
 
       if (existingOrder) {
+        existingOrder.couponDetails = couponDetailsMetadata;
+        existingOrder.discountAmount = discountAmount;
+        await existingOrder.save();
+        await sendCustomerConfirmationEmail(
+          email_address,
+          orderNumber,
+          CustomercartItemsMetadata,
+          CustomerbillingAddressMetadata,
+          Customertotal,
+          customerdiscountAmount
+        );
+        await sendAdminNotificationEmail(
+          orderNumber,
+          total,
+          cartItemsMetadata,
+          discountAmount,
+          billingAddressMetadata
+        );
         console.log(`Order with order number ${orderNumber} already exists. Skipping duplicate processing.`);
         return res.json({ received: true });
       }
@@ -150,22 +184,13 @@ router.post("/webhook", async (req, res) => {
         orderNumber,
         cartItems: cartItemsMetadata,
         billingAddress: billingAddressMetadata,
+        couponDetails: couponDetailsMetadata,
         total,
+        discountAmount,
         stripe_id,
       });
       await order.save();
-      await sendCustomerConfirmationEmail(
-        email_address,
-        orderNumber,
-        cartItemsMetadata,
-        billingAddressMetadata
-      );
-      await sendAdminNotificationEmail(
-        orderNumber,
-        total,
-        cartItemsMetadata,
-        billingAddressMetadata
-      );
+
       console.log("order creted----------------------------");
     }
 

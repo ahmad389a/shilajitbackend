@@ -4,7 +4,7 @@ const transporter = nodemailer.createTransport({
   port: 587,
   auth: {
     user: "naturenskatter@gmail.com",
-    pass: "elldtlembxaphxfc",
+    pass: "uufpjwpnfraosuan",
   },
 });
 const sendCustomerConfirmationEmail = async (

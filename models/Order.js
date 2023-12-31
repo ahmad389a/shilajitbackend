@@ -21,7 +21,13 @@ const orderSchema = new mongoose.Schema({
     emailAddress:String,
 
   },
+  couponDetails: {
+    c_name: String,
+    c_discount_price: String,
+    discountedTotalAmount:String,
+  },
   total: Number,
+  discountAmount: Number,
   stripe_id:String,
 }, {
   timestamps: true,
