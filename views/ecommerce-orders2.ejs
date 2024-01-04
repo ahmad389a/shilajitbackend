@@ -1,0 +1,144 @@
+<%- contentFor('HeaderCss') %> <%-include("partials/title-meta", {"title":
+"Orders"})%>
+<!-- gridjs css -->
+<link rel="stylesheet" href="/assets/libs/gridjs/theme/mermaid.min.css" />
+
+<!-- datepicker css -->
+<link rel="stylesheet" href="/assets/libs/flatpickr/flatpickr.min.css" />
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css"
+/>
+
+<%- contentFor('body') %> <%-include("partials/page-title", {"pagetitle":
+"Ecommerce", "title": "Orders"})%>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header"></div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table id="table-order" class="table mb-0">
+            <thead class="table-dark">
+              <tr style="text-align: center; padding: 2px">
+                <th class="text-center">#</th>
+                <th class="text-center">Order Number</th>
+                <th class="text-center">Stripe Transcation ID</th>
+                <th class="text-center">Total</th>
+                <th class="text-center">Customer Name</th>
+                <th class="text-center">Customer Address</th>
+                <th class="text-center">Customer Contact</th>
+                <th class="text-center">Cart Items</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (orders.length === 0) { %>
+              <tr>
+                <td colspan="6" class="text-center">No orders found.</td>
+              </tr>
+              <% } else { %> <% orders.forEach((order, index) => { %>
+              <tr>
+                <td class="text-center"><%= index + 1 %></td>
+                <td class="text-center"><%= order.orderNumber %></td>
+                <td class="text-center">
+                  <button
+                    class="btn btn-sm btn-primary copy-button"
+                    data-stripe-id="<%= order.stripe_id %>"
+                    onclick="copyStripeId(this)"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 448 512"
+                    >
+                      <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                      <style>
+                        svg {
+                          fill: #203b6a;
+                        }
+                      </style>
+                      <path
+                        d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"
+                      />
+                    </svg>
+                  </button>
+                </td>
+                <td class="text-center">Kr <%= order.total / 100 %></td>
+                <td class="text-center">
+                  <%= order.billingAddress.firstName %> <%=
+                  order.billingAddress.lastName %>
+                </td>
+                <td class="text-center">
+                  <%= order.billingAddress.streetAddress %> <%=
+                  order.billingAddress.townCity %> <%=
+                  order.billingAddress.postcodeZIP %> <%=
+                  order.billingAddress.stateCounty %>
+                </td>
+                <td class="text-center"><%= order.billingAddress.phone %></td>
+                <td>
+                  <table
+                    class="table text-center"
+                    style="
+                      box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
+                      border: 1px black solid;
+                    "
+                  >
+                    <thead class="table-dark">
+                      <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% order.cartItems.forEach((item, itemIndex) => { %>
+                      <tr>
+                        <td class="text-center"><%= itemIndex + 1 %></td>
+                        <td class="text-center"><%= item.name %></td>
+                        <td class="text-center">Kr<%= item.price %></td>
+                        <td class="text-center"><%= item.quantity %></td>
+                      </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <% }); %> <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end row -->
+<!-- end modal -->
+<%- contentFor('FooterJs') %>
+<!-- <script src="/assets/libs/gridjs/gridjs.umd.js"></script> -->
+<script src="/assets/libs/flatpickr/flatpickr.min.js"></script>
+<script src="/assets/js/pages/ecommerce-orders.init.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  $(document).ready(function () {
+    $("#table-order").DataTable({
+      ordering: false, // This disables sorting for the entire table
+    });
+  });
+</script>
+<script>
+  function copyStripeId(button) {
+    const stripeId = button.getAttribute("data-stripe-id");
+
+    const tempInput = document.createElement("input");
+    tempInput.value = stripeId;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+    alert("Stripe ID copied to clipboard: " + stripeId);
+  }
+</script>

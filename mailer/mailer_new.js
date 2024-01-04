@@ -18,8 +18,11 @@ const sendCustomerConfirmationEmail = async (
 ) => {
   const today = new Date();
   const estimatedDeliveryDate = new Date(today);
-  estimatedDeliveryDate.setDate(today.getDate() + 5);
-  const formattedEstimatedDeliveryDate = `${estimatedDeliveryDate.toLocaleString('default', { month: 'long' })} ${estimatedDeliveryDate.getDate()}, ${estimatedDeliveryDate.getFullYear()}`;
+  estimatedDeliveryDate.setDate(today.getDate() + 2);
+  const formattedEstimatedDeliveryDate = `${estimatedDeliveryDate.toLocaleString(
+    "default",
+    { month: "long" }
+  )} ${estimatedDeliveryDate.getDate()}, ${estimatedDeliveryDate.getFullYear()}`;
   const customerEmailOptions = {
     from: "naturenskatter@gmail.com",
     to: email_address,
@@ -116,7 +119,7 @@ const sendCustomerConfirmationEmail = async (
                             <td align="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 0px;">
                                 <img src="https://img.icons8.com/carbon-copy/100/000000/checked-checkbox.png" width="125" height="120" style="display: block; border: 0px;" /><br>
                                 <h2 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;">
-                                Thank You For Your Order!
+                                Ordre Bekreftelse!
                                 </h2>
                             </td>
                         </tr>
@@ -125,43 +128,55 @@ const sendCustomerConfirmationEmail = async (
                                 <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                 <tr>
                                 <td colspan="3" align="center" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                    Order Confirmation # ${orderNumber}
+                                    Order nummer # ${orderNumber}
                                   </td>
                                 </tr>
-                                    ${Array.isArray(CustomercartItemsMetadata) && CustomercartItemsMetadata.length > 0
-                                      ? `
+                                    ${
+                                      Array.isArray(
+                                        CustomercartItemsMetadata
+                                      ) && CustomercartItemsMetadata.length > 0
+                                        ? `
                                       <tr>
-                                      <th style="border: 1px solid black; border-top: 1px solid black; padding: 10px; text-align: center;" bgcolor="#eeeeee">Item</th>
-                                      <th style="border: 1px solid black; border-top: 1px solid black; padding: 10px; text-align: center;" bgcolor="#eeeeee">Quantity</th>
-                                      <th style="border: 1px solid black; border-top: 1px solid black; padding: 10px; text-align: center;" bgcolor="#eeeeee">Price</th>
+                                      <th style="border: 1px solid black; border-top: 1px solid black; padding: 10px; text-align: center;" bgcolor="#eeeeee">Vare</th>
+                                      <th style="border: 1px solid black; border-top: 1px solid black; padding: 10px; text-align: center;" bgcolor="#eeeeee">Antall</th>
+                                      <th style="border: 1px solid black; border-top: 1px solid black; padding: 10px; text-align: center;" bgcolor="#eeeeee">Pris</th>
                                     </tr>
                                         ${CustomercartItemsMetadata.map(
                                           (item) => `
                                             <tr>
-                                              <td style="border: 1px solid #eeeeee; padding: 10px;  text-align: center;"">${item.name}</td>
-                                              <td style="border: 1px solid #eeeeee; padding: 10px; text-align: center;"">${item.quantity} </td>
-                                              <td style="border: 1px solid #eeeeee; padding: 10px; text-align: right;"">Kr ${(item.price).toFixed(2)}</td>
+                                              <td style="border: 1px solid #eeeeee; padding: 10px;  text-align: center;"">${
+                                                item.name
+                                              }</td>
+                                              <td style="border: 1px solid #eeeeee; padding: 10px; text-align: center;"">${
+                                                item.quantity
+                                              } </td>
+                                              <td style="border: 1px solid #eeeeee; padding: 10px; text-align: right;"">Kr ${item.price.toFixed(
+                                                2
+                                              )}</td>
                                             </tr>
                                           `
                                         ).join("")}
                                       `
-                                      : "<tr><td colspan='3'>No items in the cart</td></tr>"}
+                                        : "<tr><td colspan='3'>No items in the cart</td></tr>"
+                                    }
                                       <tr align="right" style="width: 300px;">
-                                        <th colspan="2" align="center" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 800; line-height: 24px; padding: 10px;">Shipping</th>
+                                        <th colspan="2" align="center" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 800; line-height: 24px; padding: 10px;">Frakt</th>
                                         <td colspan="2" align="right" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                          Free
+                                          Gratis
                                         </td>
                                       </tr>
                                       <tr  align="right" style="width: 300px;">
-                                        <th colspan="2" align="center" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 800; line-height: 24px; padding: 10px;">Discount</th>
+                                        <th colspan="2" align="center" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 800; line-height: 24px; padding: 10px;">Avslag</th>
                                         <td colspan="2" align="right" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                          Kr ${customerdiscountAmount.toFixed(2)}
+                                          Kr ${customerdiscountAmount.toFixed(
+                                            2
+                                          )}
                                         </td>
                                       </tr>
                                       <tr  align="right" style="width: 300px;">
-                                        <th colspan="2" align="center" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 800; line-height: 24px; padding: 10px;">VAT</th>
+                                        <th colspan="2" align="center" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 800; line-height: 24px; padding: 10px;">Mva</th>
                                         <td colspan="2" align="right" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                          15% Included
+                                          15% Inkludert
                                         </td>
                                       </tr>                              
                                 </table>
@@ -175,7 +190,9 @@ const sendCustomerConfirmationEmail = async (
                                             TOTAL
                                         </td>
                                         <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
-                                           Kr ${(Customertotal /100).toFixed(2)}
+                                           Kr ${(Customertotal / 100).toFixed(
+                                             2
+                                           )}
                                         </td>
                                     </tr>
                                 </table>
@@ -195,8 +212,38 @@ const sendCustomerConfirmationEmail = async (
                                     <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                                         <tr>
                                             <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                <p style="font-weight: 800;">Delivery Address</p>
-                                                <p>${CustomerbillingAddressMetadata ? CustomerbillingAddressMetadata.firstName : ''} ${CustomerbillingAddressMetadata ? CustomerbillingAddressMetadata.lastName : ''}<br>${CustomerbillingAddressMetadata ? CustomerbillingAddressMetadata.streetAddress : ''} ${CustomerbillingAddressMetadata ? CustomerbillingAddressMetadata.townCity : ''} ${CustomerbillingAddressMetadata ? CustomerbillingAddressMetadata.postcodeZIP : ''} ${CustomerbillingAddressMetadata ? CustomerbillingAddressMetadata.stateCounty : ''}<br>${CustomerbillingAddressMetadata ? CustomerbillingAddressMetadata.phone : ''}<br>${CustomerbillingAddressMetadata ? CustomerbillingAddressMetadata.emailAddress : ''}</p>
+                                                <p style="font-weight: 800;">Leverings adresse</p>
+                                                <p>${
+                                                  CustomerbillingAddressMetadata
+                                                    ? CustomerbillingAddressMetadata.firstName
+                                                    : ""
+                                                } ${
+      CustomerbillingAddressMetadata
+        ? CustomerbillingAddressMetadata.lastName
+        : ""
+    }<br>${
+      CustomerbillingAddressMetadata
+        ? CustomerbillingAddressMetadata.streetAddress
+        : ""
+    } ${
+      CustomerbillingAddressMetadata
+        ? CustomerbillingAddressMetadata.townCity
+        : ""
+    } ${
+      CustomerbillingAddressMetadata
+        ? CustomerbillingAddressMetadata.postcodeZIP
+        : ""
+    } ${
+      CustomerbillingAddressMetadata
+        ? CustomerbillingAddressMetadata.stateCounty
+        : ""
+    }<br>${
+      CustomerbillingAddressMetadata ? CustomerbillingAddressMetadata.phone : ""
+    }<br>${
+      CustomerbillingAddressMetadata
+        ? CustomerbillingAddressMetadata.emailAddress
+        : ""
+    }</p>
     
                                             </td>
                                         </tr>
@@ -206,7 +253,7 @@ const sendCustomerConfirmationEmail = async (
                                     <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                                         <tr>
                                             <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                <p style="font-weight: 800;">Estimated Delivery Date</p>
+                                                <p style="font-weight: 800;">Forsendelse innen 2 virkedager</p>
                                                 <p>${formattedEstimatedDeliveryDate}</p>
                                             </td>
                                         </tr>
@@ -282,9 +329,12 @@ const sendAdminNotificationEmail = async (
   const today = new Date();
   const estimatedDeliveryDate = new Date(today);
   estimatedDeliveryDate.setDate(today.getDate() + 5);
-  const formattedEstimatedDeliveryDate = `${estimatedDeliveryDate.toLocaleString('default', { month: 'long' })} ${estimatedDeliveryDate.getDate()}, ${estimatedDeliveryDate.getFullYear()}`;
+  const formattedEstimatedDeliveryDate = `${estimatedDeliveryDate.toLocaleString(
+    "default",
+    { month: "long" }
+  )} ${estimatedDeliveryDate.getDate()}, ${estimatedDeliveryDate.getFullYear()}`;
   const adminEmailOptions = {
-    from: "naturenskatter@gmail.com", 
+    from: "naturenskatter@gmail.com",
     to: "naturenskatter@gmail.com",
     subject: "New Order Notification",
     html: `
@@ -391,24 +441,35 @@ const sendAdminNotificationEmail = async (
                                     Order Confirmation # ${orderNumber}
                                   </td>
                                 </tr>
-                                    ${Array.isArray(cartItemsMetadata) && cartItemsMetadata.length > 0
-                                      ? `
+                                    ${
+                                      Array.isArray(cartItemsMetadata) &&
+                                      cartItemsMetadata.length > 0
+                                        ? `
                                       <tr>
                                       <th style="border: 1px solid black; border-top: 1px solid black; padding: 10px; text-align: center;" bgcolor="#eeeeee">Item</th>
                                       <th style="border: 1px solid black; border-top: 1px solid black; padding: 10px; text-align: center;" bgcolor="#eeeeee">Quantity</th>
                                       <th style="border: 1px solid black; border-top: 1px solid black; padding: 10px; text-align: center;" bgcolor="#eeeeee">Price</th>
                                     </tr>
-                                        ${cartItemsMetadata.map(
-                                          (item) => `
+                                        ${cartItemsMetadata
+                                          .map(
+                                            (item) => `
                                             <tr>
-                                              <td style="border: 1px solid #eeeeee; padding: 10px;  text-align: center;"">${item.name}</td>
-                                              <td style="border: 1px solid #eeeeee; padding: 10px; text-align: center;"">${item.quantity} </td>
-                                              <td style="border: 1px solid #eeeeee; padding: 10px; text-align: right;"">Kr ${(item.price).toFixed(2)}</td>
+                                              <td style="border: 1px solid #eeeeee; padding: 10px;  text-align: center;"">${
+                                                item.name
+                                              }</td>
+                                              <td style="border: 1px solid #eeeeee; padding: 10px; text-align: center;"">${
+                                                item.quantity
+                                              } </td>
+                                              <td style="border: 1px solid #eeeeee; padding: 10px; text-align: right;"">Kr ${item.price.toFixed(
+                                                2
+                                              )}</td>
                                             </tr>
                                           `
-                                        ).join("")}
+                                          )
+                                          .join("")}
                                       `
-                                      : "<tr><td colspan='3'>No items in the cart</td></tr>"}
+                                        : "<tr><td colspan='3'>No items in the cart</td></tr>"
+                                    }
                                       <tr align="right" style="width: 300px;">
                                         <th colspan="2" align="center" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 800; line-height: 24px; padding: 10px;">Shipping</th>
                                         <td colspan="2" align="right" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 800; line-height: 24px; padding: 10px;">
@@ -438,7 +499,7 @@ const sendAdminNotificationEmail = async (
                                             TOTAL
                                         </td>
                                         <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
-                                           Kr ${(total /100).toFixed(2)}
+                                           Kr ${(total / 100).toFixed(2)}
                                         </td>
                                     </tr>
                                 </table>
@@ -459,7 +520,21 @@ const sendAdminNotificationEmail = async (
                                         <tr>
                                             <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
                                                 <p style="font-weight: 800;">Delivery Address</p>
-                                                <p>${billingAddressMetadata ? billingAddressMetadata.firstName : ''} ${billingAddressMetadata ? billingAddressMetadata.lastName : ''}<br>${billingAddressMetadata ? billingAddressMetadata.streetAddress : ''} ${billingAddressMetadata ? billingAddressMetadata.townCity : ''} ${billingAddressMetadata ? billingAddressMetadata.postcodeZIP : ''} ${billingAddressMetadata ? billingAddressMetadata.stateCounty : ''}<br>${billingAddressMetadata ? billingAddressMetadata.phone : ''}<br>${billingAddressMetadata ? billingAddressMetadata.emailAddress : ''}</p>
+                                                <p>${
+                                                  billingAddressMetadata
+                                                    ? billingAddressMetadata.firstName
+                                                    : ""
+                                                } ${
+      billingAddressMetadata ? billingAddressMetadata.lastName : ""
+    }<br>${
+      billingAddressMetadata ? billingAddressMetadata.streetAddress : ""
+    } ${billingAddressMetadata ? billingAddressMetadata.townCity : ""} ${
+      billingAddressMetadata ? billingAddressMetadata.postcodeZIP : ""
+    } ${billingAddressMetadata ? billingAddressMetadata.stateCounty : ""}<br>${
+      billingAddressMetadata ? billingAddressMetadata.phone : ""
+    }<br>${
+      billingAddressMetadata ? billingAddressMetadata.emailAddress : ""
+    }</p>
     
                                             </td>
                                         </tr>

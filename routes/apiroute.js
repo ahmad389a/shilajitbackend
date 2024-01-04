@@ -11,7 +11,7 @@ const Stripe = require("stripe");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const stripe = Stripe(
-  "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"
+  "sk_test_51Np5KJLohDizpnvPyxcbbf7SwYK8FroqhiahUi9ixNtyfmfsue1H33WXbchduKiTjYgOSb5XukWQxhAt7wbRlmzr00oENgStEE"
 );
 router.use(bodyParser.json());
 router.get("/products", async (req, res) => {
@@ -77,10 +77,10 @@ router.post("/create-checkout-session", async (req, res) => {
           return total + discount * item.quantity;
         }, 0)
       : 0;
-    console.log("total_Discount",totalDiscount);
+    console.log("total_Discount", totalDiscount);
     function generateOrderNumber() {
-      const min = 100000; 
-      const max = 999999; 
+      const min = 100000;
+      const max = 999999;
       const orderNumber = Math.floor(Math.random() * (max - min + 1)) + min;
       return orderNumber.toString();
     }
@@ -119,8 +119,8 @@ router.post("/create-checkout-session", async (req, res) => {
         cartItems: cartItemsJson,
         billingAddress: billingAddressJson,
         order_Number: orderNumber,
-        discount:totalDiscount,
-        discountedPrices:(formattedcouponDetails),
+        discount: totalDiscount,
+        discountedPrices: formattedcouponDetails,
       },
     });
 
@@ -139,9 +139,13 @@ router.post("/webhook", async (req, res) => {
     if (event.type === "checkout.session.completed") {
       const paymentIntent = event.data.object;
       const cartItemsMetadata = JSON.parse(paymentIntent.metadata.cartItems);
-      const CustomercartItemsMetadata = JSON.parse(paymentIntent.metadata.cartItems);
-      const couponDetailsMetadata = JSON.parse(paymentIntent.metadata.discountedPrices);
-      console.log("demo----",couponDetailsMetadata);
+      const CustomercartItemsMetadata = JSON.parse(
+        paymentIntent.metadata.cartItems
+      );
+      const couponDetailsMetadata = JSON.parse(
+        paymentIntent.metadata.discountedPrices
+      );
+      console.log("demo----", couponDetailsMetadata);
       const billingAddressMetadata = JSON.parse(
         paymentIntent.metadata.billingAddress
       );
@@ -149,8 +153,12 @@ router.post("/webhook", async (req, res) => {
         paymentIntent.metadata.billingAddress
       );
       const orderNumber = paymentIntent.metadata.order_Number;
-      const discountAmount = Math.round(parseFloat(paymentIntent.metadata.discount || 0));
-      const customerdiscountAmount = Math.round(parseFloat(paymentIntent.metadata.discount || 0));
+      const discountAmount = Math.round(
+        parseFloat(paymentIntent.metadata.discount || 0)
+      );
+      const customerdiscountAmount = Math.round(
+        parseFloat(paymentIntent.metadata.discount || 0)
+      );
       const total = paymentIntent.amount_total;
       const Customertotal = paymentIntent.amount_total;
       const subtotal = paymentIntent.amount_subtotal;
@@ -177,7 +185,9 @@ router.post("/webhook", async (req, res) => {
           discountAmount,
           billingAddressMetadata
         );
-        console.log(`Order with order number ${orderNumber} already exists. Skipping duplicate processing.`);
+        console.log(
+          `Order with order number ${orderNumber} already exists. Skipping duplicate processing.`
+        );
         return res.json({ received: true });
       }
       const order = new Order({
