@@ -11,7 +11,7 @@ const Stripe = require("stripe");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const stripe = Stripe(
-  "sk_test_51Np5KJLohDizpnvPyxcbbf7SwYK8FroqhiahUi9ixNtyfmfsue1H33WXbchduKiTjYgOSb5XukWQxhAt7wbRlmzr00oENgStEE"
+  "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"
 );
 router.use(bodyParser.json());
 router.get("/products", async (req, res) => {
