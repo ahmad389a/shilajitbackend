@@ -128,7 +128,7 @@ const sendCustomerConfirmationEmail = async (
                                 <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                 <tr>
                                 <td colspan="3" align="center" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                    Order nummer # ${orderNumber}
+                                    Ordernummer # ${orderNumber}
                                   </td>
                                 </tr>
                                     ${
